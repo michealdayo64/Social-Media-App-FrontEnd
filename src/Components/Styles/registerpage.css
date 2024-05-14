@@ -1,0 +1,104 @@
+.reg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.reg-content {
+  background: #323539;
+  border-radius: 0.25rem;
+  width: 90vw;
+  height: 60vh;
+  max-width: 500px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.reg-content h2 {
+  color: #ffd37d;
+}
+
+.sign {
+  color: #ffd37d;
+}
+
+.reg-content form {
+  min-width: 100%;
+}
+
+.pass-set {
+  position: relative;
+}
+
+.pass-eye {
+  position: absolute;
+  z-index: 20;
+  right: 20px;
+  top: 37px;
+  font-size: 20px;
+  color: #ffd37d;
+  cursor: pointer;
+}
+
+input {
+  min-width: 95%;
+  padding: 15px;
+  font-size: 20px;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid #ffd37d;
+  margin-top: 20px;
+  background-color: #323539;
+  color: aliceblue;
+}
+
+.reg-content .pass-set input {
+  min-width: 95%;
+  padding: 15px;
+  font-size: 20px;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid #ffd37d;
+  margin-top: 20px;
+  background-color: #323539;
+  color: aliceblue;
+  height: 100%;
+}
+
+.signin {
+  background-color: red;
+  height: 50px;
+  width: 450px;
+  margin: auto;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.signin button {
+  background-color: #ffd37d;
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+  color: black;
+}
+
+.sign-link{
+  color: #323539;;
+}
+
+.sign-link:hover{
+  color: #323539;
+}
+

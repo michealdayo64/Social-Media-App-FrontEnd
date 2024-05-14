@@ -1,0 +1,27 @@
+/*.home-container {
+  display: grid;
+  grid-template-areas: "letfcontainer middlecontainer rightcontainer";
+  grid-template-columns: minmax(0, 5ft) minmax(0, 12ft) minmax(100px, 7ft);
+  column-gap: 20px;
+  margin: 25px 0;
+  
+}*/
+
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  margin-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+@media (max-width: 768px) {
+  .home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}

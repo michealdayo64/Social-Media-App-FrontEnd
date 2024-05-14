@@ -1,0 +1,62 @@
+.right-container {
+  width: 400px;
+  padding-left: 30px;
+  padding-right: 20px;
+}
+
+.right-content {
+  background-color: #323539;
+  padding: 5px;
+  border-radius: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.right-container .who-to-follow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.who-to-follow .who-profile {
+  display: flex;
+  align-items: center;
+}
+
+.who-profile .who-list {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  justify-content: space-between;
+}
+
+.who-profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid red;
+}
+
+.who-to-follow p {
+  padding: 10px;
+  border-radius: 30px;
+  border: 1px solid #ffd37d;
+}
+
+.who-list .name-pro {
+  font-weight: bold;
+}
+
+.image-content img {
+  border-radius: 10px;
+}
+
+.text-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-content span {
+  line-height: 20px;
+}

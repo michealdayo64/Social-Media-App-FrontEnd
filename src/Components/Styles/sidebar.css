@@ -1,0 +1,28 @@
+.sidebar-container {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .sidebar-container {
+    display: block;
+    background-color: #ffd37d;
+    height: 100vh;
+    position: fixed;
+    width: 200px;
+    right: 0;
+    top: 0;
+    padding: 10px;
+    transition: all 0.3s linear;
+    transform: translate(0);
+    box-shadow: hsl(360, 67%, 44%);
+  }
+  .show-sidebar {
+    transform: translate(100%);
+  }
+
+  .cancel-icon{
+    font-size: 30px;
+    color: #323539;
+    cursor: pointer;
+  }
+}

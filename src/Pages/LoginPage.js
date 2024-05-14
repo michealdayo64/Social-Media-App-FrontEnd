@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../Components/Styles/loginpage.css";
-import { Link, json } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa6";
 import { signIn, setIsLoading } from "../features/counter/authSlice";
@@ -37,7 +37,7 @@ function LoginPage() {
   const submitLoginButton = async (e) => {
     e.preventDefault();
     dispatch(setIsLoading());
-    const url = "";
+    const url = "http://127.0.0.1:8000/account/login_api/";
     const response = await fetch(url, {
       body: JSON.stringify({
         email: getEmailInput,
@@ -54,6 +54,10 @@ function LoginPage() {
     setEmailInput("");
     setPasswordInput("");
   };
+
+  if (loginMessage.isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="log-container">

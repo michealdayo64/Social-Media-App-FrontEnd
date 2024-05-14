@@ -34,14 +34,22 @@ export const authSlice = createSlice({
         ...state,
         isAuthenticated: true,
         token: action.payload.token,
-        loginSuccess: payload.msg,
+        loginSuccess: action.payload.msg,
         isLoading: false,
+      };
+    },
+    signInFailed: (state, action) => {
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: false,
+        loginFail: payload.msg,
       };
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { signUp, setIsLoading } = authSlice.actions;
+export const { signUp, setIsLoading, signIn } = authSlice.actions;
 
 export default authSlice.reducer;

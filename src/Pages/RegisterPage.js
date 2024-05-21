@@ -3,7 +3,11 @@ import "../Components/Styles/registerpage.css";
 import { Link, Navigate } from "react-router-dom";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa6";
-import { signUp, setIsLoading } from "../features/counter/authSlice";
+import {
+  signUp,
+  setIsLoading,
+  signUpFailed,
+} from "../features/counter/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 function RegisterPage() {
@@ -59,7 +63,7 @@ function RegisterPage() {
   // Handle Submit Button
   const submitBtn = async (e) => {
     e.preventDefault();
-    dispatch(setIsLoading())
+    dispatch(setIsLoading());
     const url = "http://127.0.0.1:8000/account/register_api/";
     const response = await fetch(url, {
       body: JSON.stringify({
@@ -74,7 +78,11 @@ function RegisterPage() {
     });
     const data = await response.json();
     console.log(data);
-    dispatch(signUp(data))
+    if (data.msg === "Registration Successful") {
+      dispatch(signUp(data));
+    } else {
+      dispatch(signUpFailed(data));
+    }
     setPasswordInput("");
     setEmailInput("");
     setUsernameInput("");
@@ -91,7 +99,7 @@ function RegisterPage() {
     return <Navigate to="/login" />;
   }
 
-  console.log(registerMessage.signupSuccess, registerMessage.isLoading)
+  console.log(registerMessage.signupSuccess, registerMessage.isLoading);
 
   return (
     <div className="reg-container">

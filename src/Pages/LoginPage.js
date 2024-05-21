@@ -3,7 +3,11 @@ import "../Components/Styles/loginpage.css";
 import { Link, Navigate } from "react-router-dom";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa6";
-import { signIn, setIsLoading } from "../features/counter/authSlice";
+import {
+  signIn,
+  setIsLoading,
+  signInFailed,
+} from "../features/counter/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 function LoginPage() {
@@ -50,10 +54,16 @@ function LoginPage() {
     });
     const data = await response.json();
     console.log(data);
-    dispatch(signIn(data));
+    if (response.status === 200) {
+      dispatch(signIn(data));
+    } else {
+      dispatch(signInFailed(data));
+    }
     setEmailInput("");
     setPasswordInput("");
   };
+
+  console.log(loginMessage.token);
 
   if (loginMessage.isAuthenticated) {
     return <Navigate to="/" />;

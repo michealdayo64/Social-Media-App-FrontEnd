@@ -22,6 +22,14 @@ export const authSlice = createSlice({
         isLoading: false,
       };
     },
+    signUpFailed:(state, action) =>{
+      return{
+        ...state,
+        signupFail: action.payload.msg,
+        isLoading: false,
+        isAuthenticated: false,
+      }
+    },
     setIsLoading: (state) => {
       return {
         ...state,
@@ -29,7 +37,7 @@ export const authSlice = createSlice({
       };
     },
     signIn: (state, action) => {
-      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("token", JSON.stringify(action.payload.token));
       return {
         ...state,
         isAuthenticated: true,
@@ -43,13 +51,13 @@ export const authSlice = createSlice({
         ...state,
         isLoading: false,
         isAuthenticated: false,
-        loginFail: payload.msg,
+        loginFail: action.payload.msg,
       };
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { signUp, setIsLoading, signIn } = authSlice.actions;
+export const { signUp, setIsLoading, signIn, signInFailed, signUpFailed } = authSlice.actions;
 
 export default authSlice.reducer;

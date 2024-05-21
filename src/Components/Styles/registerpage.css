@@ -94,11 +94,10 @@ input {
   color: black;
 }
 
-.sign-link{
-  color: #323539;;
-}
-
-.sign-link:hover{
+.sign-link {
   color: #323539;
 }
 
+.sign-link:hover {
+  color: #323539;
+}

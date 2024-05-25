@@ -3,15 +3,10 @@ import "../Components/Styles/registerpage.css";
 import { Link, Navigate } from "react-router-dom";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa6";
-import {
-  signUp,
-  setIsLoading,
-  signUpFailed,
-} from "../features/counter/authSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { signUp, setIsLoading, signUpFailed } from "../redux_folder/authSlice";
+import { useDispatch } from "react-redux";
 
 function RegisterPage() {
-  const registerMessage = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [viewPassword, setViewPassword] = useState(false);
   const [getEmailInput, setEmailInput] = useState("");
@@ -67,7 +62,7 @@ function RegisterPage() {
     const url = "http://127.0.0.1:8000/account/register_api/";
     const response = await fetch(url, {
       body: JSON.stringify({
-        username: getEmailInput,
+        username: getUsernameInput,
         email: getEmailInput,
         password: getPasswordInput,
       }),
@@ -99,7 +94,7 @@ function RegisterPage() {
     return <Navigate to="/login" />;
   }
 
-  console.log(registerMessage.signupSuccess, registerMessage.isLoading);
+  //console.log(registerMessage.signupSuccess, registerMessage.isLoading);
 
   return (
     <div className="reg-container">
@@ -112,19 +107,22 @@ function RegisterPage() {
           </Link>
         </span>
         <form onSubmit={submitBtn} action="/login">
-          <input
-            type="text"
-            placeholder="Username"
-            onChange={handleUsernameInput}
-            value={getUsernameInput}
-          />
-
-          <input
-            type="email"
-            placeholder="@ Email address"
-            onChange={handleEmailInput}
-            value={getEmailInput}
-          />
+          <div className="pass-set">
+            <input
+              type="text"
+              placeholder="Username"
+              onChange={handleUsernameInput}
+              value={getUsernameInput}
+            />
+          </div>
+          <div className="pass-set">
+            <input
+              type="email"
+              placeholder="@ Email address"
+              onChange={handleEmailInput}
+              value={getEmailInput}
+            />
+          </div>
           <div className="pass-set">
             {viewPassword ? (
               <FaEyeSlash className="pass-eye" onClick={handlePassBtn} />

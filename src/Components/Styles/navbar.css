@@ -18,6 +18,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  width: 400px;
 }
 
 .icon-search .icon-img {
@@ -34,9 +35,7 @@
   display: flex;
   align-items: center;
   color: #d9e4ed;
-  background-color: red;
-
-  width: 300px;
+  margin-bottom: 15px;
 }
 
 .icon-search .search .ser-icon {
@@ -83,6 +82,7 @@
   width: 35px;
   height: 35px;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .right .messnot {

@@ -4,6 +4,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: {
     token: localStorage.getItem("token"),
+    access: localStorage.getItem("access"),
     loginSuccess: null,
     loginFail: null,
     logoutSuccess: null,
@@ -22,13 +23,13 @@ export const authSlice = createSlice({
         isLoading: false,
       };
     },
-    signUpFailed:(state, action) =>{
-      return{
+    signUpFailed: (state, action) => {
+      return {
         ...state,
         signupFail: action.payload.msg,
         isLoading: false,
         isAuthenticated: false,
-      }
+      };
     },
     setIsLoading: (state) => {
       return {
@@ -54,10 +55,39 @@ export const authSlice = createSlice({
         loginFail: action.payload.msg,
       };
     },
+    loadUser: (state, action) => {
+      localStorage.setItem("access", JSON.stringify(action.payload.access));
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: true,
+        access: action.payload.access,
+      };
+    },
+    logout: (state, action) => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("access");
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: false,
+        logoutSuccess: action.payload.msg,
+        access: null,
+        token: null,
+      };
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { signUp, setIsLoading, signIn, signInFailed, signUpFailed } = authSlice.actions;
+export const {
+  signUp,
+  setIsLoading,
+  signIn,
+  signInFailed,
+  signUpFailed,
+  loadUser,
+  logout,
+} = authSlice.actions;
 
 export default authSlice.reducer;

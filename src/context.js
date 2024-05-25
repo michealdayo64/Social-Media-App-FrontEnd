@@ -5,6 +5,12 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showSetting, setShowSettings] = useState(false);
+  //const container = useRef(null);
+
+  const handShowSettings = () => {
+    setShowSettings(true);
+  };
 
   const openSidebar = () => {
     setIsSidebarOpen(false);
@@ -31,6 +37,8 @@ const AppProvider = ({ children }) => {
         isModalOpen,
         openModal,
         closeModal,
+        handShowSettings,
+        showSetting
       }}
     >
       {children}

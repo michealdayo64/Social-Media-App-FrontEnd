@@ -5,7 +5,6 @@ import { useGlobalContext } from "../context";
 
 function Sidebar() {
   const { isSidebarOpen, closeSidebar } = useGlobalContext();
-  console.log(isSidebarOpen);
   return (
     <div
       className={`${

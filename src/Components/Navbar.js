@@ -9,31 +9,14 @@ import { FaRegBell } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GoDotFill } from "react-icons/go";
 import { useGlobalContext } from "../context";
-import { Navigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../redux_folder/authSlice";
+import { Link, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 
 function Navbar() {
-  const { openSidebar, handShowSettings } = useGlobalContext();
+  const { openSidebar, handShowSettings, handleCloseSettings } = useGlobalContext();
   const isAuth = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
 
-  const handleLogoutBtn = async () => {
-    const url = "http://127.0.0.1:8000/account/logout_api/";
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${isAuth.access}`,
-      },
-    });
-    const data = await response.json();
-    if (response.status === 200) {
-      dispatch(logout(data));
-    } else {
-      console.log("logout");
-    }
-  };
 
   /**const openSettingsMenu = (e)=>{
     const size = e.target.getBoundingClientRect();
@@ -56,10 +39,11 @@ function Navbar() {
           </div>
         </div>
         <div className="menus">
-          <span>Home</span>
-          <span>Friends</span>
-          <span>Groups</span>
-          <span>Notifications</span>
+          <Link to="/"><span>Home</span></Link>
+          <Link to="/friends"><span>Friends</span></Link>
+          <Link to="/group"><span>Groups</span></Link>
+         <Link to="notifications"><span>Notifications</span></Link>
+          
         </div>
         <div className="right">
           <div className="messnot">
@@ -70,9 +54,9 @@ function Navbar() {
             <FaRegBell className="bell" />
             <GoDotFill className="not" />
           </div>
-          <MdOutlineSettings onMouseOver={() => handShowSettings()} className="sett" />
+          <MdOutlineSettings onMouseOver={() => handShowSettings()} onMouseOut={handleCloseSettings} className="sett" />
 
-          <img src={profileImg} onClick={handleLogoutBtn} alt="profile-img" />
+          <img src={profileImg} alt="profile-img" />
         </div>
         <GiHamburgerMenu className="ham" onClick={openSidebar} />
       </nav>

@@ -12,13 +12,16 @@ const AppProvider = ({ children }) => {
     setShowSettings(true);
   };
 
+  const handleCloseSettings = () =>{
+    setShowSettings(false)
+  }
+
+
   const openSidebar = () => {
     setIsSidebarOpen(false);
-    console.log(isSidebarOpen);
   };
   const closeSidebar = () => {
     setIsSidebarOpen(true);
-    console.log(isSidebarOpen);
   };
 
   const openModal = () => {
@@ -38,7 +41,8 @@ const AppProvider = ({ children }) => {
         openModal,
         closeModal,
         handShowSettings,
-        showSetting
+        showSetting,
+        handleCloseSettings
       }}
     >
       {children}

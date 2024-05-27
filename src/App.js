@@ -6,6 +6,9 @@ import LoginPage from "./Pages/LoginPage";
 import { useSelector, useDispatch } from "react-redux";
 import { loadUser } from "../src/redux_folder/authSlice";
 import { useEffect } from "react";
+import FriendsPage from "./Pages/FriendsPage";
+import Group from "./Pages/Group";
+import Notifications from "./Pages/Notifications";
 
 
 const router = createBrowserRouter([
@@ -30,6 +33,30 @@ const router = createBrowserRouter([
     element: (
       <div>
         <LoginPage />
+      </div>
+    ),
+  },
+  {
+    path: "/friends",
+    element: (
+      <div>
+        <FriendsPage />
+      </div>
+    ),
+  },
+  {
+    path: "/group",
+    element: (
+      <div>
+        <Group />
+      </div>
+    ),
+  },
+  {
+    path: "/notifications",
+    element: (
+      <div>
+        <Notifications />
       </div>
     ),
   },

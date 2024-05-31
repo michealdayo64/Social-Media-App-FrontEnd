@@ -42,7 +42,7 @@ function Navbar() {
           <Link to="/"><span>Home</span></Link>
           <Link to="/friends"><span>Friends</span></Link>
           <Link to="/group"><span>Groups</span></Link>
-         <Link to="notifications"><span>Notifications</span></Link>
+         <Link to="/notifications"><span>Notifications</span></Link>
           
         </div>
         <div className="right">

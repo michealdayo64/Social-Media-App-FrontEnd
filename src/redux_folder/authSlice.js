@@ -55,13 +55,22 @@ export const authSlice = createSlice({
         loginFail: action.payload.msg,
       };
     },
-    loadUser: (state, action) => {
+    loadUserAccessToken: (state, action) => {
       localStorage.setItem("access", JSON.stringify(action.payload.access));
       return {
         ...state,
         isLoading: false,
         isAuthenticated: true,
         access: action.payload.access,
+      };
+    },
+    loadUser: (state, action) => {
+      ///localStorage.setItem("loaduser", JSON.stringify(action.payload.msg));
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: true,
+        user: action.payload.msg,
       };
     },
     logout: (state, action) => {
@@ -87,6 +96,7 @@ export const {
   signInFailed,
   signUpFailed,
   loadUser,
+  loadUserAccessToken,
   logout,
 } = authSlice.actions;
 

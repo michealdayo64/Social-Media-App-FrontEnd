@@ -4,12 +4,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
 import { useSelector, useDispatch } from "react-redux";
-import { loadUser } from "../src/redux_folder/authSlice";
+import { loadUserAccessToken } from "../src/redux_folder/authSlice";
 import { useEffect } from "react";
 import FriendsPage from "./Pages/FriendsPage";
 import Group from "./Pages/Group";
 import Notifications from "./Pages/Notifications";
-
 
 const router = createBrowserRouter([
   {
@@ -71,7 +70,7 @@ function App() {
       typeof window !== "undefined" && window.localStorage.getItem("token")
     );
     if (refresh) {
-      const getLoadUser = async () => {
+      const getLoadUserAccessToken = async () => {
         const url = "http://127.0.0.1:8000/account/token/refresh/";
         const response = await fetch(url, {
           method: "POST",
@@ -82,14 +81,27 @@ function App() {
         });
         const data = await response.json();
         if (response.status === 200) {
-          dispatch(loadUser(data));
+          dispatch(loadUserAccessToken(data));
         }
       };
-      getLoadUser();
+      getLoadUserAccessToken();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth.isAuthenticated]);
+
+  /*useEffect(() => {
+    const getLoadUser = async () =>{
+      const url = "http://127.0.0.1:8000/account/user_api/"
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${isAuth.access}`,
+        },
+      })
+    }
+  }, []);*/
 
   return (
     <div>

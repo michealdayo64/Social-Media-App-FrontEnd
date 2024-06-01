@@ -4,11 +4,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
 import { useSelector, useDispatch } from "react-redux";
-import { loadUserAccessToken } from "../src/redux_folder/authSlice";
+import { loadUserAccessToken, loadUser } from "../src/redux_folder/authSlice";
 import { useEffect } from "react";
 import FriendsPage from "./Pages/FriendsPage";
 import Group from "./Pages/Group";
 import Notifications from "./Pages/Notifications";
+import { jwtDecode } from "jwt-decode";
 
 const router = createBrowserRouter([
   {
@@ -64,24 +65,32 @@ const router = createBrowserRouter([
 function App() {
   const isAuth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  var userdata = {}
+  var refreshdata = isAuth.token
+  console.log(refreshdata)
 
   useEffect(() => {
-    const refresh = JSON.parse(
-      typeof window !== "undefined" && window.localStorage.getItem("token")
-    );
+    const refresh =
+      typeof window !== "undefined" && window.localStorage.getItem("token");
+    console.log(refresh);
     if (refresh) {
       const getLoadUserAccessToken = async () => {
         const url = "http://127.0.0.1:8000/account/token/refresh/";
+        console.log(url);
         const response = await fetch(url, {
           method: "POST",
-          body: JSON.stringify({ refresh: refresh?.refresh }),
+          body: JSON.stringify({ refresh: refreshdata }),
           headers: {
             "Content-Type": "application/json",
           },
         });
         const data = await response.json();
+        console.log(data.access);
         if (response.status === 200) {
           dispatch(loadUserAccessToken(data));
+          userdata["userdata"] = jwtDecode(data.access);
+          console.log(userdata)
+          dispatch(loadUser(userdata));
         }
       };
       getLoadUserAccessToken();
@@ -89,19 +98,6 @@ function App() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth.isAuthenticated]);
-
-  /*useEffect(() => {
-    const getLoadUser = async () =>{
-      const url = "http://127.0.0.1:8000/account/user_api/"
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${isAuth.access}`,
-        },
-      })
-    }
-  }, []);*/
 
   return (
     <div>

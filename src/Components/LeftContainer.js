@@ -11,8 +11,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 function LeftContainer() {
   const isAuth = useSelector((state) => state.auth);
-  const name = JSON.parse(isAuth.token)
-  //console.log(name.username);
+  //console.log(isAuth)
+  const userData = isAuth.user;
+  console.log(userData);
   return (
     <div className="left-container">
       <div className="profile-container">
@@ -20,8 +21,8 @@ function LeftContainer() {
           <img src={profileImg} alt="profile" />
         </div>
         <div className="profile-data">
-          <span></span>
-          <span>@{name?.username}</span>
+          <span>{userData.name}</span>
+          <span>@{userData.username}</span>
         </div>
         <div className="follow">
           <div>

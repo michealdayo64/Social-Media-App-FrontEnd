@@ -38,12 +38,12 @@ export const authSlice = createSlice({
       };
     },
     signIn: (state, action) => {
-      localStorage.setItem("token", JSON.stringify(action.payload.token));
+      localStorage.setItem("token", JSON.stringify(action.payload.refresh));
       return {
         ...state,
         isAuthenticated: true,
-        token: action.payload.token,
-        loginSuccess: action.payload.msg,
+        token: action.payload.refresh,
+        loginSuccess: "Login success",
         isLoading: false,
       };
     },
@@ -70,7 +70,7 @@ export const authSlice = createSlice({
         ...state,
         isLoading: false,
         isAuthenticated: true,
-        user: action.payload.msg,
+        user: action.payload.userdata,
       };
     },
     logout: (state, action) => {

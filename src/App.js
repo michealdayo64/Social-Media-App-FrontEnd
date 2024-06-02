@@ -65,36 +65,27 @@ const router = createBrowserRouter([
 function App() {
   const isAuth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  var userdata = {}
-  var refreshdata = isAuth.token
-  console.log(refreshdata)
+  var userdata = {};
 
   useEffect(() => {
-    const refresh =
-      typeof window !== "undefined" && window.localStorage.getItem("token");
-    console.log(refresh);
-    if (refresh) {
-      const getLoadUserAccessToken = async () => {
-        const url = "http://127.0.0.1:8000/account/token/refresh/";
-        console.log(url);
-        const response = await fetch(url, {
-          method: "POST",
-          body: JSON.stringify({ refresh: refreshdata }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await response.json();
-        console.log(data.access);
-        if (response.status === 200) {
-          dispatch(loadUserAccessToken(data));
-          userdata["userdata"] = jwtDecode(data.access);
-          console.log(userdata)
-          dispatch(loadUser(userdata));
-        }
-      };
-      getLoadUserAccessToken();
-    }
+    const refresh = JSON.parse(localStorage.getItem("token"));
+    const getLoadUserAccessToken = async () => {
+      const url = "http://127.0.0.1:8000/account/token/refresh/";
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({ refresh: refresh }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        dispatch(loadUserAccessToken(data));
+        userdata["userdata"] = jwtDecode(data.access);
+        dispatch(loadUser(userdata));
+      }
+    };
+    getLoadUserAccessToken();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth.isAuthenticated]);

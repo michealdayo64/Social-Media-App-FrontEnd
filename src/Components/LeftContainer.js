@@ -1,28 +1,27 @@
 import React from "react";
 import "../Components/Styles/leftcontainer.css";
-import profileImg from "./assets/avatar.png";
+//import profileImg from "./assets/avatar.png";
 import { RiHomeWifiLine } from "react-icons/ri";
 import { FaUserFriends } from "react-icons/fa";
 import { BsPersonVideo2 } from "react-icons/bs";
 //import { GiHiking } from "react-icons/gi";
 import { IoMdPhotos } from "react-icons/io";
 import { FaRegMap } from "react-icons/fa6";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 function LeftContainer() {
   const isAuth = useSelector((state) => state.auth);
-  //console.log(isAuth)
   const userData = isAuth.user;
-  console.log(userData);
+
   return (
     <div className="left-container">
       <div className="profile-container">
         <div className="profile-img">
-          <img src={profileImg} alt="profile" />
+          <img src={userData?.profile_pic} alt="profile" />
         </div>
         <div className="profile-data">
-          <span>{userData.name}</span>
-          <span>@{userData.username}</span>
+          <span>{userData?.name}</span>
+          <span>@{userData?.username}</span>
         </div>
         <div className="follow">
           <div>

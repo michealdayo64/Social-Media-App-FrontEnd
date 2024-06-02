@@ -40,8 +40,8 @@ function LoginPage() {
   const submitLoginButton = async (e) => {
     e.preventDefault();
     dispatch(setIsLoading());
-    //const url = "http://127.0.0.1:8000/account/login_api/";
-    const url = "http://127.0.0.1:8000/account/token_serial/";
+    const url = "http://127.0.0.1:8000/account/login_api/";
+    //const url = "http://127.0.0.1:8000/account/token_serial/";
     
     const response = await fetch(url, {
       body: JSON.stringify({

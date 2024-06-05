@@ -1,16 +1,20 @@
 import React from "react";
 import "../Components/Styles/middlecontainer.css";
-import profileImg from "./assets/avatar.png";
+//import profileImg from "./assets/avatar.png";
 import { useGlobalContext } from "../context";
 import { FaImage, FaVideo, FaXbox } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 function MiddleContainer() {
   const { openModal } = useGlobalContext();
+  const isAuth = useSelector((state) => state.auth);
+  const userData = isAuth.user;
+
   return (
     <div className="middle-container">
       <div className="post-content">
         <div className="img-input">
-          <img src={profileImg} alt="avatar-img" />
+          <img src={userData?.profile_pic} alt="avatar-img" />
 
           <button onClick={openModal}>What's on your mind?</button>
         </div>

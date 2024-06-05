@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux_folder/authSlice";
 
 function SettingsMenu() {
-    const {showSetting, handShowSettings, handleCloseSettings} = useGlobalContext()
+    const {showSetting, handShowSettings} = useGlobalContext()
     const dispatch = useDispatch()
     const isAuth = useSelector((state) => state.auth);
 
@@ -21,13 +21,14 @@ function SettingsMenu() {
       const data = await response.json();
       if (response.status === 200) {
         dispatch(logout(data));
+        handShowSettings()
       } else {
         console.log("logout");
       }
     };
 
   return (
-    <div className={`${showSetting ? "submenu show" : "submenu"}` } onMouseOver={handShowSettings} onMouseOut={handleCloseSettings}>
+    <div className={`${showSetting ? "submenu show" : "submenu"}` }>
       <div className="menu-content">
         <span onClick={handleLogoutBtn}>
             Logout

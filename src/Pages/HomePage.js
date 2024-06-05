@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+//import React, { useEffect, useState, useRef } from "react";
 import "../Components/Styles/homepage.css";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
@@ -7,28 +7,13 @@ import RightContainer from "../Components/RightContainer";
 import MiddleContainer from "../Components/MiddleContainer";
 import Modal from "../Components/Modal";
 import SettingsMenu from "../Components/SettingsMenu";
-//import Alert from "../Components/Alert";
-//import { useSelector } from "react-redux";
+import { useGlobalContext } from "../context";
 
 function HomePage() {
-  /**const timerId = useRef(null);
-  const [showAlert, setShowAlert] = useState(false);
-  const loginMessage = useSelector((state) => state.auth);**/
+  const { handShowSettings, showSetting } = useGlobalContext();
 
-  /**useEffect(() => {
-    setShowAlert(true);
-    if (showAlert) {
-      timerId.current = setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
-    }
-    return () => {
-      clearTimeout(timerId.current);
-    };
-  }, [showAlert]);**/
   return (
-    <div>
-      
+    <div onClick={showSetting ? handShowSettings : null}>
       <Navbar />
       <SettingsMenu />
       <Sidebar />

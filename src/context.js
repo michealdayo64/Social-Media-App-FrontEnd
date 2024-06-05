@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+//import { useDispatch } from "react-redux";
 
 const AppContext = React.createContext();
 
@@ -6,16 +7,27 @@ const AppProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSetting, setShowSettings] = useState(false);
-  //const container = useRef(null);
+
+  /**const getLoadUserAccessToken = async (refresh, userdata) => {
+    const url = "http://127.0.0.1:8000/account/token/refresh/";
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ refresh: refresh }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    if (response.status === 200) {
+      dispatch(loadUserAccessToken(data));
+      userdata["userdata"] = jwtDecode(data.access);
+      dispatch(loadUser(userdata));
+    }
+  };**/
 
   const handShowSettings = () => {
-    setShowSettings(true);
+    setShowSettings(!showSetting);
   };
-
-  const handleCloseSettings = () =>{
-    setShowSettings(false)
-  }
-
 
   const openSidebar = () => {
     setIsSidebarOpen(false);
@@ -42,7 +54,7 @@ const AppProvider = ({ children }) => {
         closeModal,
         handShowSettings,
         showSetting,
-        handleCloseSettings
+        //getLoadUserAccessToken
       }}
     >
       {children}

@@ -4,12 +4,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
 import { useSelector, useDispatch } from "react-redux";
-import { loadUserAccessToken, loadUser } from "../src/redux_folder/authSlice";
 import { useEffect } from "react";
 import FriendsPage from "./Pages/FriendsPage";
 import Group from "./Pages/Group";
 import Notifications from "./Pages/Notifications";
+import { loadUserAccessToken, loadUser } from "./redux_folder/authSlice";
 import { jwtDecode } from "jwt-decode";
+//import { useGlobalContext } from "./context";
 
 const router = createBrowserRouter([
   {
@@ -63,12 +64,14 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  //const { getLoadUserAccessToken } = useGlobalContext();
   const isAuth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  var userdata = {};
+  var userdataObject = {};
 
   useEffect(() => {
     const refresh = JSON.parse(localStorage.getItem("token"));
+
     const getLoadUserAccessToken = async () => {
       const url = "http://127.0.0.1:8000/account/token/refresh/";
       const response = await fetch(url, {
@@ -81,10 +84,11 @@ function App() {
       const data = await response.json();
       if (response.status === 200) {
         dispatch(loadUserAccessToken(data));
-        userdata["userdata"] = jwtDecode(data.access);
-        dispatch(loadUser(userdata));
+        userdataObject["userdata"] = jwtDecode(data.access);
+        dispatch(loadUser(userdataObject));
       }
     };
+
     getLoadUserAccessToken();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

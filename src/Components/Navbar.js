@@ -10,35 +10,14 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { GoDotFill } from "react-icons/go";
 import { useGlobalContext } from "../context";
 import { Link, Navigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { loadUserAccessToken, loadUser } from "../redux_folder/authSlice";
-import { jwtDecode } from "jwt-decode";
+import { useSelector } from "react-redux";
+
 
 
 function Navbar() {
   const { openSidebar, handShowSettings  } = useGlobalContext();
   const isAuth = useSelector((state) => state.auth);
   const userData = isAuth.user;
-  const dispatch = useDispatch();
-  var userdataObject = {};
-  const refresh = JSON.parse(localStorage.getItem("token"));
-
-    const getLoadUserAccessToken = async () => {
-      const url = "http://127.0.0.1:8000/account/token/refresh/";
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify({ refresh: refresh }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      if (response.status === 200) {
-        dispatch(loadUserAccessToken(data));
-        userdataObject["userdata"] = jwtDecode(data.access);
-        dispatch(loadUser(userdataObject));
-      }
-    };
 
 
   if (isAuth.isAuthenticated === false) {

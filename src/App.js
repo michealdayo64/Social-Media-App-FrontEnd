@@ -64,13 +64,11 @@ const router = createBrowserRouter([
 function App() {
   const { getLoadUserAccessToken } = useGlobalContext();
   const isAuth = useSelector((state) => state.auth);
-  //const dispatch = useDispatch();
-  var userdataObject = {};
+  var userdata = {};
+  var refresh = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
-    const refresh = JSON.parse(localStorage.getItem("token"));
-
-    getLoadUserAccessToken(refresh, userdataObject);
+    getLoadUserAccessToken(refresh, userdata);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth.isAuthenticated]);

@@ -23,16 +23,16 @@ function LoginPage() {
 
   const handleChangeEmail = (e) => {
     e.preventDefault();
-    const emailInput = e.target.value.trim();
-    if (emailInput.length > 0) {
+    const emailInput = e.target.value;
+    if (emailInput.length > -1) {
       setEmailInput(emailInput);
     }
   };
 
   const handleChangePassword = (e) => {
     e.preventDefault();
-    const passwordInput = e.target.value.trim();
-    if (passwordInput.length > 0) {
+    const passwordInput = e.target.value;
+    if (passwordInput.length > -1) {
       setPasswordInput(passwordInput);
     }
   };

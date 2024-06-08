@@ -41,6 +41,7 @@
   padding: 10px;
   border-radius: 30px;
   border: 1px solid #ffd37d;
+  cursor: pointer;
 }
 
 .who-list .name-pro {

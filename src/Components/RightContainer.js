@@ -2,11 +2,18 @@ import React from "react";
 import "../Components/Styles/rightcontainer.css";
 import profileImg from "./assets/avatar.png";
 import newsImage from "./assets/new-img.jpeg"
+import { UseSelector, useSelector } from "react-redux";
+
+
 function RightContainer() {
+  const all = useSelector((state) => state.friend)
+  const allUsers = all.users
+  console.log(allUsers)
+
   return (
     <div className="right-container">
       <div className="right-content">
-        <h2>Who to follow</h2>
+        <h2>Friends To Add</h2>
         <div className="who-to-follow">
           <div className="who-profile">
             <img src={profileImg} alt="profile" />
@@ -15,7 +22,7 @@ function RightContainer() {
               <span>@scallet</span>
             </div>
           </div>
-          <p>Follow</p>
+          <p>Send Request</p>
         </div>
 
         <div className="who-to-follow">
@@ -26,7 +33,7 @@ function RightContainer() {
               <span>@scallet</span>
             </div>
           </div>
-          <p>Follow</p>
+          <p>Send Request</p>
         </div>
         <div className="who-to-follow">
           <div className="who-profile">
@@ -36,7 +43,7 @@ function RightContainer() {
               <span>@scallet</span>
             </div>
           </div>
-          <p>Follow</p>
+          <p>Send Request</p>
         </div>
 
         <div className="who-to-follow">
@@ -47,7 +54,7 @@ function RightContainer() {
               <span>@scallet</span>
             </div>
           </div>
-          <p>Follow</p>
+          <p>Send Request</p>
         </div>
       </div>
       <br></br>

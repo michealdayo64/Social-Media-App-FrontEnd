@@ -6,6 +6,7 @@ import { FaEyeSlash } from "react-icons/fa6";
 import { signIn, setIsLoading, signInFailed } from "../redux_folder/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Alert from "../Components/Alert";
+import { loginAction } from "../Actions/authActions";
 
 function LoginPage() {
   const loginMessage = useSelector((state) => state.auth);
@@ -40,32 +41,18 @@ function LoginPage() {
   const submitLoginButton = async (e) => {
     e.preventDefault();
     dispatch(setIsLoading());
-    const url = "http://127.0.0.1:8000/account/login_api/";
-    //const url = "http://127.0.0.1:8000/account/token_serial/";
-    
-    const response = await fetch(url, {
-      body: JSON.stringify({
-        email: getEmailInput,
-        password: getPasswordInput,
-      }),
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await loginAction(getEmailInput, getPasswordInput);
     const data = await response.json();
     if (response.status === 200) {
       dispatch(signIn(data));
       setEmailInput("");
       setPasswordInput("");
       setShowAlert(true);
-      
     } else {
       dispatch(signInFailed(data));
       setEmailInput("");
       setPasswordInput("");
       setShowAlert(true);
-      
     }
   };
 
@@ -86,7 +73,15 @@ function LoginPage() {
 
   return (
     <div>
-      {showAlert && <Alert myalert={loginMessage.loginFail ? loginMessage.loginFail : loginMessage.loginSuccess} />}
+      {showAlert && (
+        <Alert
+          myalert={
+            loginMessage.loginFail
+              ? loginMessage.loginFail
+              : loginMessage.loginSuccess
+          }
+        />
+      )}
       <div className="log-container">
         <div className="log-content">
           <h2>Log In</h2>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../Components/Styles/leftcontainer.css";
 //import profileImg from "./assets/avatar.png";
 import { RiHomeWifiLine } from "react-icons/ri";
@@ -7,35 +7,11 @@ import { BsPersonVideo2 } from "react-icons/bs";
 //import { GiHiking } from "react-icons/gi";
 import { IoMdPhotos } from "react-icons/io";
 import { FaRegMap } from "react-icons/fa6";
-import { useSelector, useDispatch } from "react-redux";
-import { loadAllUsers } from "../redux_folder/friendSlice";
+import { useSelector } from "react-redux";
 
 function LeftContainer() {
   const isAuth = useSelector((state) => state.auth);
   const userData = isAuth.user;
-  
-  const dispatch = useDispatch()
-
-  useEffect(() =>{
-    var access = JSON.parse(localStorage.getItem("access"));
-    const url = "http://127.0.0.1:8000/friend/get_all_user/"
-    const getAllUser = async () =>{
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${access}`,
-        },
-
-      })
-      const data = await response.json()
-      //console.log(data)
-      if(response.status === 200){
-        dispatch(loadAllUsers(data))
-      }
-    }
-    getAllUser()
-  }, [])
 
   return (
     <div className="left-container">

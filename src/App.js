@@ -9,6 +9,7 @@ import FriendsPage from "./Pages/FriendsPage";
 import Group from "./Pages/Group";
 import Notifications from "./Pages/Notifications";
 import { useGlobalContext } from "./context";
+import { getAllUser } from "./Actions/friendActions";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,7 @@ function App() {
 
   useEffect(() => {
     getLoadUserAccessToken(refresh, userdata);
+    getAllUser();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth.isAuthenticated]);

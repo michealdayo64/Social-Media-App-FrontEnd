@@ -3,13 +3,22 @@ import HomePage from "./Pages/HomePage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import FriendsPage from "./Pages/FriendsPage";
 import Group from "./Pages/Group";
 import Notifications from "./Pages/Notifications";
 import { useGlobalContext } from "./context";
-import { getAllUser } from "./Actions/friendActions";
+import {
+  getAllUser,
+  getTotalFriends,
+  getTotalFriendRequest,
+} from "./Actions/friendActions";
+import {
+  loadAllUsers,
+  loadTotalFriends,
+  loadTotalFriendRequest,
+} from "./redux_folder/friendSlice";
 
 const router = createBrowserRouter([
   {
@@ -63,14 +72,26 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const { getLoadUserAccessToken } = useGlobalContext();
+  const {
+    getLoadUserAccessToken,
+    getAllUser,
+    getTotalFriends,
+    getTotalFriendRequest,
+  } = useGlobalContext();
   const isAuth = useSelector((state) => state.auth);
   var userdata = {};
   var refresh = JSON.parse(localStorage.getItem("token"));
+  //var accessData
+
+  const getLoadUserAccessTokenFunc = async () => {
+    var accessData = await getLoadUserAccessToken(refresh, userdata);
+    getAllUser(`${accessData?.access}`);
+    getTotalFriends(`${accessData?.access}`);
+    getTotalFriendRequest(`${accessData?.access}`);
+  };
 
   useEffect(() => {
-    getLoadUserAccessToken(refresh, userdata);
-    getAllUser();
+    getLoadUserAccessTokenFunc();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth.isAuthenticated]);

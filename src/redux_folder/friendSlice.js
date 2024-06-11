@@ -14,10 +14,10 @@ export const friendSlice = createSlice({
         users: action.payload.msg,
       };
     },
-    loadFriendRequest: (state, action) => {
+    loadTotalFriendRequest: (state, action) => {
       return {
         state,
-        friend_request: action.payload.msg,
+        total_friend_request: action.payload.msg,
       };
     },
     loadTotalFriends: (state, action) => {
@@ -29,7 +29,7 @@ export const friendSlice = createSlice({
   },
 });
 
-export const { loadAllUsers, loadFriendRequest, loadTotalFriends } =
+export const { loadAllUsers, loadTotalFriendRequest, loadTotalFriends } =
   friendSlice.actions;
 
 export default friendSlice.reducer;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../Components/Styles/leftcontainer.css";
 //import profileImg from "./assets/avatar.png";
 import { RiHomeWifiLine } from "react-icons/ri";
@@ -7,11 +7,22 @@ import { BsPersonVideo2 } from "react-icons/bs";
 //import { GiHiking } from "react-icons/gi";
 import { IoMdPhotos } from "react-icons/io";
 import { FaRegMap } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useGlobalContext } from "../context";
 
 function LeftContainer() {
-  const isAuth = useSelector((state) => state.auth);
-  const userData = isAuth.user;
+  //const { getTotalFriends, getTotalFriendRequest } = useGlobalContext();
+  const authState = useSelector((state) => state.auth);
+  const friendSate = useSelector((state) => state.friend);
+  const userData = authState.user;
+  const totalFriend = friendSate?.total_friends;
+  const totalFriendRequest = friendSate?.total_friend_request;
+  //const dispatch = useDispatch();
+  //var access = authState.access;
+  var access = JSON.parse(localStorage.getItem("access"));
+  
+
+  
 
   return (
     <div className="left-container">
@@ -25,11 +36,11 @@ function LeftContainer() {
         </div>
         <div className="follow">
           <div>
-            <span>4.6k</span>
+            <span>{totalFriend ? totalFriend : 0}</span>
             <p>Friends</p>
           </div>
           <div>
-            <span>4.6k</span>
+            <span>{totalFriendRequest ? totalFriendRequest : 0}</span>
             <p>Friend Requests</p>
           </div>
           <div>

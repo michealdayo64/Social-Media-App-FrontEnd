@@ -8,18 +8,15 @@ import MiddleContainer from "../Components/MiddleContainer";
 import Modal from "../Components/Modal";
 import SettingsMenu from "../Components/SettingsMenu";
 import { useGlobalContext } from "../context";
-//import { useDispatch, useSelector } from "react-redux";
-//import { loadAllUsers } from "../redux_folder/friendSlice";
 import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 function HomePage() {
   const { handShowSettings, showSetting } = useGlobalContext();
+  const isAuth = useSelector((state) => state.auth);
+  //const dispatch = useDispatch();
+  //var access = isAuth.access;
   
-  useEffect(() => {
-    
-   
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div onClick={showSetting ? handShowSettings : null}>

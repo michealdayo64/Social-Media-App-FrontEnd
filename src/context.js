@@ -2,6 +2,11 @@ import React, { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { loadUserAccessToken, loadUser } from "./redux_folder/authSlice";
 import { jwtDecode } from "jwt-decode";
+import {
+  loadTotalFriends,
+  loadTotalFriendRequest,
+  loadAllUsers,
+} from "./redux_folder/friendSlice";
 
 const AppContext = React.createContext();
 
@@ -10,6 +15,7 @@ const AppProvider = ({ children }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSetting, setShowSettings] = useState(false);
   const dispatch = useDispatch();
+  const BASE_URL = "http://127.0.0.1:8000";
 
   const getLoadUserAccessToken = async (refresh, userdata) => {
     const url = "http://127.0.0.1:8000/account/token/refresh/";
@@ -25,6 +31,55 @@ const AppProvider = ({ children }) => {
       dispatch(loadUserAccessToken(data));
       userdata["userdata"] = jwtDecode(data.access);
       dispatch(loadUser(userdata));
+    }
+    return data;
+  };
+
+  const getAllUser = async (access) => {
+    const url = `${BASE_URL}/friend/get_all_user/`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${access}`,
+      },
+    });
+    const data = await response.json();
+    //console.log(data)
+    if (response.status === 200) {
+      dispatch(loadAllUsers(data));
+    }
+  };
+
+  const getTotalFriends = async (access) => {
+    const url = `${BASE_URL}/friend/friend_count/`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${access}`,
+      },
+    });
+    const data = await response.json();
+    //console.log(data)
+    if (response.status === 200) {
+      dispatch(loadTotalFriends(data));
+    }
+  };
+
+  const getTotalFriendRequest = async (access) => {
+    const url = `${BASE_URL}/friend/total_friend_request/`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${access}`,
+      },
+    });
+    const data = await response.json();
+    //console.log(data)
+    if (response.status === 200) {
+      dispatch(loadTotalFriendRequest(data));
     }
   };
 
@@ -61,6 +116,9 @@ const AppProvider = ({ children }) => {
         handShowSettings,
         showSetting,
         getLoadUserAccessToken,
+        getTotalFriends,
+        getTotalFriendRequest,
+        getAllUser,
       }}
     >
       {children}

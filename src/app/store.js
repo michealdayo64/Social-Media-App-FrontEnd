@@ -5,6 +5,7 @@ import friendSlice from "../redux_folder/friendSlice";
 export default configureStore({
   reducer: {
     auth: authSlice,
-    friend: friendSlice
+    friend: friendSlice,
+    
   },
 });

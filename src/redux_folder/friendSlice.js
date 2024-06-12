@@ -16,13 +16,13 @@ export const friendSlice = createSlice({
     },
     loadTotalFriendRequest: (state, action) => {
       return {
-        state,
+        ...state,
         total_friend_request: action.payload.msg,
       };
     },
     loadTotalFriends: (state, action) => {
       return {
-        state,
+        ...state,
         total_friends: action.payload.msg,
       };
     },

@@ -37,11 +37,21 @@
   border: 1px solid red;
 }
 
-.who-to-follow p {
-  padding: 10px;
-  border-radius: 30px;
+
+.who-to-follow .request {
+  padding: 5px;
+  border-radius: 5px;
   border: 1px solid #ffd37d;
   cursor: pointer;
+  font-size: 15px;
+  width: 100%;
+  text-align: center;
+}
+
+.request-container{
+  display: flex;
+  justify-content: space-between;
+  width: 120px;
 }
 
 .who-list .name-pro {

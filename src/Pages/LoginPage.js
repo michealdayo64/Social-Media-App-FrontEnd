@@ -7,8 +7,7 @@ import { signIn, setIsLoading, signInFailed } from "../redux_folder/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Alert from "../Components/Alert";
 import { loginAction } from "../Actions/authActions";
-import { loadAllUsers } from "../redux_folder/friendSlice";
-import { getAllUser } from "../Actions/friendActions";
+
 
 function LoginPage() {
   const loginMessage = useSelector((state) => state.auth);
@@ -49,11 +48,6 @@ function LoginPage() {
       dispatch(signIn(data));
       setEmailInput("");
       setPasswordInput("");
-      /*const res = await getAllUser(data.access);
-      const dataUser = await res.json();
-      if (res.status === 200) {
-        dispatch(loadAllUsers(dataUser));
-      }*/
       setShowAlert(true);
     } else {
       dispatch(signInFailed(data));

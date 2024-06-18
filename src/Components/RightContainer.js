@@ -18,13 +18,19 @@ function RightContainer() {
               <div key={allU.pk}>
                 <div className="who-to-follow">
                   <div className="who-profile">
-                    <img src={allU.profile_image} alt="profile" />
+                    <img src={allU.pic} alt="profile" />
                     <div className="who-list">
-                      <span className="name-pro">Scarlet Flod</span>
+                      <span className="name-pro">{allU.name}</span>
                       <span>@{allU.username}</span>
                     </div>
                   </div>
-                  <p>Send Request</p>
+                  <div className="request-container">
+                    {allU.is_friend ? (
+                      <span className="request">UnFriend</span>
+                    ) : (
+                      <span className="request">Add Friend</span>
+                    )}
+                  </div>
                 </div>
               </div>
             );

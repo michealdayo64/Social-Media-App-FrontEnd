@@ -9,16 +9,7 @@ import FriendsPage from "./Pages/FriendsPage";
 import Group from "./Pages/Group";
 import Notifications from "./Pages/Notifications";
 import { useGlobalContext } from "./context";
-import {
-  getAllUser,
-  getTotalFriends,
-  getTotalFriendRequest,
-} from "./Actions/friendActions";
-import {
-  loadAllUsers,
-  loadTotalFriends,
-  loadTotalFriendRequest,
-} from "./redux_folder/friendSlice";
+
 
 const router = createBrowserRouter([
   {
@@ -92,7 +83,6 @@ function App() {
 
   useEffect(() => {
     getLoadUserAccessTokenFunc();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth.isAuthenticated]);
 

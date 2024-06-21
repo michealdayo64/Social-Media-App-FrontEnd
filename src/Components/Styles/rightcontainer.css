@@ -16,6 +16,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 50px;
 }
 
 .who-to-follow .who-profile {
@@ -46,12 +47,14 @@
   font-size: 15px;
   width: 100%;
   text-align: center;
+  
 }
 
 .request-container{
   display: flex;
   justify-content: space-between;
   width: 120px;
+  
 }
 
 .who-list .name-pro {

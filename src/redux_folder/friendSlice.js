@@ -7,6 +7,7 @@ export const friendSlice = createSlice({
     friend_request: 0,
     total_friends: 0,
     msg: null,
+    request_id: null
   },
   reducers: {
     loadAllUsers: (state, action) => {
@@ -32,6 +33,7 @@ export const friendSlice = createSlice({
         ...state,
         msg: action.payload.msg,
         users: action.payload.data,
+        request_id: action.payload.pending_request_id
       };
     },
     accept_request: (state, action) => {

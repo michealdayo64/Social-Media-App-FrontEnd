@@ -14,9 +14,13 @@ function RightContainer() {
   const allUsers = all.users;
   var access = authState.access;
 
+  
+
   const send_request_func = async (id) => {
     const response = await getSendRequest(access, id);
+    console.log(response)
     const data = await response.json();
+    console.log(data)
     dispatch(send_request(data));
   };
 
@@ -71,7 +75,7 @@ function RightContainer() {
                         <span className="request">Decline</span>
                       </div>
                     ) : allU.request_sent === 1 ? (
-                      <span className="request" onClick={() => cancel_request_func(allU.pending_friend_request_id)}>Cancel</span>
+                      <span className="request" onClick={() => cancel_request_func(allU.pk)}>Cancel</span>
                     ) : (
                       <span
                         className="request"

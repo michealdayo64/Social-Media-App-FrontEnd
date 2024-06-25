@@ -21,11 +21,11 @@ function MiddleContainer() {
         <br></br>
         <hr></hr>
         <div className="img-video">
-          <div className="stream">
+          <div className="stream" onClick={openModal}>
             <FaVideo />
             <span>Video Stream</span>
           </div>
-          <div>
+          <div onClick={openModal}>
             <FaImage />
             <span>Img/Video</span>
           </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../Components/Styles/leftcontainer.css";
 //import profileImg from "./assets/avatar.png";
 import { RiHomeWifiLine } from "react-icons/ri";
@@ -7,8 +7,8 @@ import { BsPersonVideo2 } from "react-icons/bs";
 //import { GiHiking } from "react-icons/gi";
 import { IoMdPhotos } from "react-icons/io";
 import { FaRegMap } from "react-icons/fa6";
-import { useSelector, useDispatch } from "react-redux";
-import { useGlobalContext } from "../context";
+import { useSelector } from "react-redux";
+
 
 function LeftContainer() {
   //const { getTotalFriends, getTotalFriendRequest } = useGlobalContext();
@@ -19,7 +19,7 @@ function LeftContainer() {
   const totalFriendRequest = friendSate?.total_friend_request;
   //const dispatch = useDispatch();
   //var access = authState.access;
-  var access = JSON.parse(localStorage.getItem("access"));
+  //var access = JSON.parse(localStorage.getItem("access"));
   
 
   

@@ -14,6 +14,10 @@ const AppProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSetting, setShowSettings] = useState(false);
+  const [showPhoto, setShowPhoto] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+  const [showAttachment, setShowAttachment] = useState(false);
+
   const dispatch = useDispatch();
   const BASE_URL = "http://127.0.0.1:8000";
 
@@ -45,7 +49,7 @@ const AppProvider = ({ children }) => {
       },
     });
     const data = await response.json();
-    console.log(data)
+    console.log(data);
     if (response.status === 200) {
       dispatch(loadAllUsers(data));
     }
@@ -90,6 +94,33 @@ const AppProvider = ({ children }) => {
     getLoadUserAccessToken(refresh, userdataObject);
   };
 
+  const displayPhoto = () => {
+    if (showVideo === true) {
+      setShowVideo(false);
+    } else if (showAttachment === true) {
+      setShowAttachment(false);
+    }
+    setShowPhoto(!showPhoto);
+  };
+
+  const displayVideo = () => {
+    if (showPhoto === true) {
+      setShowPhoto(false);
+    } else if (showAttachment === true) {
+      setShowAttachment(false);
+    }
+    setShowVideo(!showVideo);
+  };
+
+  const displayAttachment = () => {
+    if (showPhoto === true) {
+      setShowPhoto(false);
+    } else if (showVideo === true) {
+      setShowVideo(false);
+    }
+    setShowAttachment(!showAttachment);
+  };
+
   const openSidebar = () => {
     setIsSidebarOpen(false);
   };
@@ -101,6 +132,9 @@ const AppProvider = ({ children }) => {
     setIsModalOpen(true);
   };
   const closeModal = () => {
+    setShowPhoto(false);
+    setShowVideo(false);
+    setShowAttachment(false);
     setIsModalOpen(false);
   };
 
@@ -111,6 +145,12 @@ const AppProvider = ({ children }) => {
         openSidebar,
         closeSidebar,
         isModalOpen,
+        displayPhoto,
+        showPhoto,
+        displayAttachment,
+        showAttachment,
+        displayVideo,
+        showVideo,
         openModal,
         closeModal,
         handShowSettings,

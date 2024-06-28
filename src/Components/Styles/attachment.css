@@ -1,0 +1,40 @@
+.container {
+    width: 100%;
+    background-color: rgb(236, 236, 236);
+    border-radius: 5px;
+    margin-bottom: 20px;
+    visibility: visible;
+  }
+  
+  .remove-container {
+    visibility: hidden;
+    height: 0;
+  }
+  
+  .container-child {
+    width: 150px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .one-icon {
+    padding: 10px;
+    background-color: rgb(209, 206, 206);
+    border-radius: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .add-attachment {
+    font-weight: bold;
+    color: #323539;
+  }
+  
+  .drag-drop {
+    font-size: 10px;
+    color: #323539;
+  }
+  

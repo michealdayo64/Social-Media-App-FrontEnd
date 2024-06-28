@@ -50,6 +50,7 @@
   color: #ffd37d;
   padding: 5px;
   transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  cursor: pointer;
 }
 
 .img-video div:hover {
@@ -60,6 +61,11 @@
 
 .img-video div span {
   margin-left: 10px;
+}
+
+.img-video div span:hover {
+  margin-left: 10px;
+  color: #323539;
 }
 
 @media (max-width: 768px) {

@@ -128,6 +128,16 @@ const AppProvider = ({ children }) => {
     setIsSidebarOpen(true);
   };
 
+  const openModalWithPhoto = () =>{
+    openModal()
+    displayPhoto()
+  }
+
+  const openModalWithVideo = () =>{
+    openModal()
+    displayVideo()
+  }
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -152,6 +162,8 @@ const AppProvider = ({ children }) => {
         displayVideo,
         showVideo,
         openModal,
+        openModalWithPhoto,
+        openModalWithVideo,
         closeModal,
         handShowSettings,
         showSetting,

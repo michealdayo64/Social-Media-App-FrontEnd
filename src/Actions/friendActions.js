@@ -97,3 +97,6 @@ export const getRemoveFriend = async (access, id) => {
 };
 
 
+
+
+

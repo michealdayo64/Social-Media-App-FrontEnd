@@ -96,4 +96,9 @@
 
 .allpost-text img{
   width: 100%;
+  height: 500px;
+}
+
+.allpost-text video{
+  width: 100%;
 }

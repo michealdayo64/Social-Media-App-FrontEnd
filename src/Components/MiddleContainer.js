@@ -57,7 +57,7 @@ function MiddleContainer() {
       <br />
       <div>
         <AllPost socialData={socialData} />
-       
+        
       </div>
     </div>
   );

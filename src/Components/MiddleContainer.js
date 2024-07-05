@@ -4,8 +4,8 @@ import { useGlobalContext } from "../context";
 import { FaImage, FaVideo, FaXbox } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import AllPost from "./AllPost";
-import { allPost, allCommentById } from "../Actions/socialActions";
-import { loadAllPost, loadCommentById } from "../redux_folder/socialSlice";
+import { allPost } from "../Actions/socialActions";
+import { loadAllPost } from "../redux_folder/socialSlice";
 
 function MiddleContainer() {
   const { openModal, openModalWithPhoto, openModalWithVideo } =

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import "./Styles/allpost.css";
 import { SlOptions } from "react-icons/sl";
 import { GiSelfLove } from "react-icons/gi";
@@ -46,12 +46,18 @@ function AllPost({ socialData }) {
               <div className="bottom">
                 <div className="bottom-like">
                   <GiSelfLove className="icon-color" />
-                  <span className="like">0 Likes</span>
+                  <span className="like">
+                    {`${soc.user_like_post.length === 1}`
+                      ? `${soc.user_like_post.length} Like`
+                      : `${soc.user_like_post.length} Likes`}
+                  </span>
                 </div>
                 <div className="bottom-comment">
                   <div>
                     <TfiCommentAlt className="icon-color" />
-                    <span className="comment">{soc.comments.length} Commnets</span>
+                    <span className="comment">
+                      {soc.comments.length} Commnets
+                    </span>
                   </div>
                   <div>
                     <BiRepost className="icon-color" />

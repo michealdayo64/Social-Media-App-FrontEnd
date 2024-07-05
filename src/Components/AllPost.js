@@ -1,17 +1,14 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./Styles/allpost.css";
-import pic from "./assets/avatar.png";
 import { SlOptions } from "react-icons/sl";
 import { GiSelfLove } from "react-icons/gi";
 import { TfiCommentAlt } from "react-icons/tfi";
 import { BiRepost } from "react-icons/bi";
-import Moment from 'react-moment';
+import Moment from "react-moment";
 //import { useDispatch, useSelector } from "react-redux";
 
 function AllPost({ socialData }) {
-
   function getExtension(filename) {
-    console.log(filename?.split(/[#?]/)[0].split(".").pop().trim());
     return filename?.split(/[#?]/)[0].split(".").pop().trim();
   }
   return (
@@ -25,7 +22,9 @@ function AllPost({ socialData }) {
                   <img src={soc.user.profile_image} alt="" />
                   <div className="top-text">
                     <span className="text-t">{soc.user.username}</span>
-                    <span className="text-b"><Moment format="D MMM YYYY">{soc.date_post}</Moment></span>
+                    <span className="text-b">
+                      <Moment format="D MMM YYYY">{soc.date_post}</Moment>
+                    </span>
                   </div>
                 </div>
                 <SlOptions className="option" />
@@ -52,7 +51,7 @@ function AllPost({ socialData }) {
                 <div className="bottom-comment">
                   <div>
                     <TfiCommentAlt className="icon-color" />
-                    <span className="comment">0 Commnets</span>
+                    <span className="comment">{soc.comments.length} Commnets</span>
                   </div>
                   <div>
                     <BiRepost className="icon-color" />
@@ -62,7 +61,6 @@ function AllPost({ socialData }) {
               </div>
               <br></br>
             </div>
-           
           );
         })}
     </div>

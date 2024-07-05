@@ -4,15 +4,15 @@ import { useGlobalContext } from "../context";
 import { FaImage, FaVideo, FaXbox } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import AllPost from "./AllPost";
-import { allPost } from "../Actions/socialActions";
-import { loadAllPost } from "../redux_folder/socialSlice";
+import { allPost, allCommentById } from "../Actions/socialActions";
+import { loadAllPost, loadCommentById } from "../redux_folder/socialSlice";
 
 function MiddleContainer() {
   const { openModal, openModalWithPhoto, openModalWithVideo } =
     useGlobalContext();
   const isAuth = useSelector((state) => state.auth);
   const social = useSelector((state) => state.social);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const userData = isAuth.user;
   const access = isAuth.access;
   const socialData = social.allpost;
@@ -22,11 +22,9 @@ function MiddleContainer() {
       const response = await allPost(access);
       const data = await response.json();
       console.log(data);
-      dispatch(loadAllPost(data))
-
+      dispatch(loadAllPost(data));
     };
-
-    getallPostFunc()
+    getallPostFunc();
   }, []);
 
   return (
@@ -57,7 +55,6 @@ function MiddleContainer() {
       <br />
       <div>
         <AllPost socialData={socialData} />
-        
       </div>
     </div>
   );

@@ -49,7 +49,6 @@ const AppProvider = ({ children }) => {
       },
     });
     const data = await response.json();
-    console.log(data);
     if (response.status === 200) {
       dispatch(loadAllUsers(data));
     }
@@ -128,15 +127,15 @@ const AppProvider = ({ children }) => {
     setIsSidebarOpen(true);
   };
 
-  const openModalWithPhoto = () =>{
-    openModal()
-    displayPhoto()
-  }
+  const openModalWithPhoto = () => {
+    openModal();
+    displayPhoto();
+  };
 
-  const openModalWithVideo = () =>{
-    openModal()
-    displayVideo()
-  }
+  const openModalWithVideo = () => {
+    openModal();
+    displayVideo();
+  };
 
   const openModal = () => {
     setIsModalOpen(true);

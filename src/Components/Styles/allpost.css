@@ -72,6 +72,7 @@
 .bottom-like {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .bottom-like .like {

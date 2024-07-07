@@ -4,8 +4,8 @@ import { useGlobalContext } from "../context";
 import { FaImage, FaVideo, FaXbox } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import AllPost from "./AllPost";
-import { allPost } from "../Actions/socialActions";
-import { loadAllPost } from "../redux_folder/socialSlice";
+import { allPost, userLikeId } from "../Actions/socialActions";
+import { loadAllPost, loadUserLikePostId } from "../redux_folder/socialSlice";
 
 function MiddleContainer() {
   const { openModal, openModalWithPhoto, openModalWithVideo } =
@@ -17,15 +17,24 @@ function MiddleContainer() {
   const access = isAuth.access;
   const socialData = social.allpost;
 
+  const getallPostFunc = async () => {
+    const response = await allPost(access);
+    const data = await response.json();
+    dispatch(loadAllPost(data));
+  };
+
   useEffect(() => {
-    const getallPostFunc = async () => {
-      const response = await allPost(access);
-      const data = await response.json();
-      console.log(data);
-      dispatch(loadAllPost(data));
-    };
+    
     getallPostFunc();
   }, []);
+
+  const likePostBtn = async (id) =>{
+    const response = await userLikeId(access, id)
+    const data = await response.json()
+    console.log(data)
+    dispatch(loadUserLikePostId(data))
+    getallPostFunc();
+  }
 
   return (
     <div className="middle-container">
@@ -54,7 +63,7 @@ function MiddleContainer() {
       </div>
       <br />
       <div>
-        <AllPost socialData={socialData} />
+        <AllPost socialData={socialData} likePostBtn={likePostBtn} />
       </div>
     </div>
   );

@@ -1,16 +1,26 @@
-import React from "react";
+import React, {useRef} from "react";
 import "./Styles/allpost.css";
 import { SlOptions } from "react-icons/sl";
 import { GiSelfLove } from "react-icons/gi";
 import { TfiCommentAlt } from "react-icons/tfi";
 import { BiRepost } from "react-icons/bi";
+import { BiSolidLike } from "react-icons/bi";
+import { BiSolidDislike } from "react-icons/bi";
 import Moment from "react-moment";
-//import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-function AllPost({ socialData }) {
+
+function AllPost({ socialData, likePostBtn }) {
   function getExtension(filename) {
     return filename?.split(/[#?]/)[0].split(".").pop().trim();
   }
+
+  const auth = useSelector((state) => state.auth)
+  const user = auth.user
+
+  console.log(user)
+
+
   return (
     <div className="allpost-container">
       {socialData &&
@@ -44,8 +54,15 @@ function AllPost({ socialData }) {
               </div>
               <hr />
               <div className="bottom">
-                <div className="bottom-like">
-                  <GiSelfLove className="icon-color" />
+                <div
+                  className="bottom-like"
+                  onClick={() => likePostBtn(soc.pk)}
+                >
+                  {
+                    soc.user_like_post.includes(user) ? <BiSolidLike className="icon-color" /> : <BiSolidDislike className="icon-color" />
+                  }
+                  
+
                   <span className="like">
                     {`${soc.user_like_post.length === 1}`
                       ? `${soc.user_like_post.length} Like`

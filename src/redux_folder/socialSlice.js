@@ -7,6 +7,8 @@ export const socialSlice = createSlice({
     allcomment: null,
     msg_post: null,
     msg_comment: null,
+    userLikePost: null,
+    userlikeMsg: null
   },
   reducers: {
     loadAllPost: (state, action) => {
@@ -23,9 +25,16 @@ export const socialSlice = createSlice({
         msg_comment: action.payload.msg,
       };
     },
+    loadUserLikePostId: (state, action) =>{
+      return{
+        ...state,
+        userLikePost: action.payload.like_count,
+        userlikeMsg: action.payload.msg
+      }
+    }
   },
 });
 
-export const { loadAllPost, loadCommentById } = socialSlice.actions;
+export const { loadAllPost, loadCommentById, loadUserLikePostId } = socialSlice.actions;
 
 export default socialSlice.reducer;

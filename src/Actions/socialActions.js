@@ -34,4 +34,16 @@ export const userLikeId = async (access, id) => {
     },
   });
   return response;
-}
+};
+
+export const userRepostId = async (access, id) => {
+  const url = `${BASE_URL}/repost-api/${id}/`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${access}`,
+    },
+  });
+  return response;
+};

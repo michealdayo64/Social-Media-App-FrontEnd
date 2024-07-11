@@ -103,3 +103,7 @@
 .allpost-text video{
   width: 100%;
 }
+
+.repost{
+  cursor: pointer;
+}

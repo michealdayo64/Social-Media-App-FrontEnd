@@ -1,7 +1,6 @@
 .allpost-container {
   background-color: #323539;
   border-radius: 5px;
-  
 }
 
 .inside-container {
@@ -95,15 +94,133 @@
   color: #ffd37d;
 }
 
-.allpost-text img{
+.allpost-text img {
   width: 100%;
   height: 500px;
 }
 
-.allpost-text video{
+.allpost-text video {
   width: 100%;
 }
 
-.repost{
+.repost {
+  cursor: pointer;
+}
+
+.comment-text1 {
+  margin-top: 15px;
+  display: none;
+  align-items: center;
+}
+
+.comment-text2 {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.comment-text2 img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.comment-text2 form {
+  width: 100%;
+}
+
+.comment-text2 input {
+  border-radius: 30px;
+  width: 100%;
+  padding: 15px;
+  font-size: 20px;
+  outline: none;
+  border: 1px solid #ffd37d;
+  margin-top: 20px;
+  background-color: #323539;
+  color: aliceblue;
+  height: 10px;
+}
+
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  border: 1px solid #ffd37d;
+  border-radius: 40px;
+  height: 100%;
+  margin-left: 5px;
+  font-size: 15px;
+}
+
+.comment-list1 {
+  display: none;
+}
+
+.comment-list2 {
+  display: block;
+  margin-top: 15px;
+}
+
+.comment-list-top {
+  display: flex;
+}
+
+.comment-list2 img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.comment-list2 .comment-card {
+  margin-left: 5px;
+  background-color: rgb(190, 196, 200);
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.comment-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header a {
+  color: #000000;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.card-header span {
+  color: #626263;
+  font-size: 13px;
+}
+
+.comment-card .card-body {
+  word-wrap: break-word;
+  width: 100%;
+}
+
+.card-body p {
+  color: #000000;
+}
+
+.like-reply {
+  display: flex;
+  margin-left: 45px;
+  margin-top: 10px;
+  
+}
+
+.like-reply span{
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.like-reply a{
   cursor: pointer;
 }

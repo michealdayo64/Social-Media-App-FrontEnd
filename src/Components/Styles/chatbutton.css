@@ -1,0 +1,15 @@
+.chat-btn{
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    z-index: 100;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-btn .chat-icon{
+    font-size: 100px;
+    color: #fff;
+    border-radius: 50%;
+}

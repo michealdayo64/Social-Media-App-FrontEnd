@@ -24,8 +24,6 @@
   width: 90vw;
   height: 60vh;
   max-width: 620px;
-  position: relative;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;

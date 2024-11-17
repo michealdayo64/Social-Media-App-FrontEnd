@@ -25,11 +25,12 @@ function MiddleContainer() {
     const response = await allPost(access);
     const data = await response.json();
     dispatch(loadAllPost(data));
+    console.log("hello")
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     getallPostFunc();
-  }, []);
+  }, []);*/
 
   const likePostBtn = async (id) => {
     const response = await userLikeId(access, id);

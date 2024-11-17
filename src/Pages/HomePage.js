@@ -8,8 +8,9 @@ import MiddleContainer from "../Components/MiddleContainer";
 import Modal from "../Components/Modal";
 import SettingsMenu from "../Components/SettingsMenu";
 import { useGlobalContext } from "../context";
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import ChatButton from "../Components/ChatButton";
+import ChatModal from "../Components/ChatModal";
 
 function HomePage() {
   const { handShowSettings, showSetting } = useGlobalContext();
@@ -28,6 +29,8 @@ function HomePage() {
         <MiddleContainer />
         <RightContainer />
         <Modal />
+        <ChatButton />
+        <ChatModal />
       </div>
     </div>
   );

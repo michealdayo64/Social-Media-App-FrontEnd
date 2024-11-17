@@ -1,0 +1,36 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: grid;
+    place-items: center;
+    transition: all 0.2s linear;
+    visibility: hidden;
+    z-index: -1;
+  }
+  
+  /* OPEN/CLOSE MODAL */
+  .show-modal {
+    visibility: visible;
+    z-index: 10;
+  }
+
+.modal-container {
+  background: #fff;
+  border-radius: 0.25rem;
+  width: 90vw;
+  height: 60vh;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.modal-container h2{
+  color: #131415;
+}
+
+.chat-type{
+  display: flex;
+  justify-content: space-between;
+}

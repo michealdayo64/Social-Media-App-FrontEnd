@@ -9,7 +9,8 @@ import FriendsPage from "./Pages/FriendsPage";
 import Group from "./Pages/Group";
 import Notifications from "./Pages/Notifications";
 import { useGlobalContext } from "./context";
-
+import { allPost } from "./Actions/socialActions";
+import { loadAllPost } from "./redux_folder/socialSlice";
 
 const router = createBrowserRouter([
   {
@@ -69,16 +70,23 @@ function App() {
     getTotalFriends,
     getTotalFriendRequest,
   } = useGlobalContext();
+  const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth);
   var userdata = {};
   var refresh = JSON.parse(localStorage.getItem("token"));
   //var accessData
 
   const getLoadUserAccessTokenFunc = async () => {
-    var accessData = await getLoadUserAccessToken(refresh, userdata);
-    getAllUser(`${accessData?.access}`);
-    getTotalFriends(`${accessData?.access}`);
-    getTotalFriendRequest(`${accessData?.access}`);
+    if (refresh) {
+      var accessData = await getLoadUserAccessToken(refresh, userdata);
+      getAllUser(`${accessData?.access}`);
+      getTotalFriends(`${accessData?.access}`);
+      getTotalFriendRequest(`${accessData?.access}`);
+
+      const response = await allPost(`${accessData?.access}`);
+      const data = await response.json();
+      dispatch(loadAllPost(data));
+    }
   };
 
   useEffect(() => {

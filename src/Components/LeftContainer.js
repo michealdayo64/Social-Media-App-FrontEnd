@@ -22,7 +22,6 @@ function LeftContainer() {
   //var access = JSON.parse(localStorage.getItem("access"));
   
 
-  
 
   return (
     <div className="left-container">

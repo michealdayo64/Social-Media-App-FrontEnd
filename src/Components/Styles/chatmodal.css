@@ -1,4 +1,4 @@
-.modal-overlay {
+.chat-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -7,15 +7,17 @@
     transition: all 0.2s linear;
     visibility: hidden;
     z-index: -1;
+    width: 100%;
+    height: 100%;
   }
   
   /* OPEN/CLOSE MODAL */
-  .show-modal {
+  .chat-show-modal {
     visibility: visible;
     z-index: 10;
   }
 
-.modal-container {
+.chat-modal-container {
   background: #fff;
   border-radius: 0.25rem;
   width: 90vw;
@@ -26,11 +28,28 @@
   padding: 10px;
 }
 
-.modal-container h2{
+.chat-modal-container h2{
   color: #131415;
 }
 
 .chat-type{
   display: flex;
   justify-content: space-between;
+}
+
+.group-chat{
+  visibility: hidden;
+}
+
+.show-group-chat{
+  visibility: visible;
+
+}
+
+.private-chat{
+  visibility: hidden;
+}
+
+.show-private-chat{
+  visibility: visible;
 }

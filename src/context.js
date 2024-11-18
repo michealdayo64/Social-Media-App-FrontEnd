@@ -13,6 +13,9 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isChatModalOpen, setChatModalOpen] = useState(false)
+  const [isOpenGroup, setOpenGroup] = useState(false)
+  const [isOpenPrivateChat, setOpenPrivateChat] = useState()
   const [showSetting, setShowSettings] = useState(false);
   const [showPhoto, setShowPhoto] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
@@ -147,6 +150,29 @@ const AppProvider = ({ children }) => {
     setIsModalOpen(false);
   };
 
+  const chatOpenModal = () =>{
+    setChatModalOpen(!isChatModalOpen)
+  }
+
+  const openGroup = () =>{
+    setOpenGroup(true)
+  }
+
+  const closeGroup = () =>{
+    setOpenGroup(false)
+  }
+
+  const openPrivateChat = () =>{
+    setOpenPrivateChat(true)
+  }
+
+  const closePrivateChat = () =>{
+    setOpenPrivateChat(false)
+  }
+
+
+
+
   return (
     <AppContext.Provider
       value={{
@@ -160,10 +186,18 @@ const AppProvider = ({ children }) => {
         showAttachment,
         displayVideo,
         showVideo,
+        isOpenGroup,
+        isOpenPrivateChat,
         openModal,
         openModalWithPhoto,
         openModalWithVideo,
+        openPrivateChat,
+        closePrivateChat,
         closeModal,
+        closeGroup,
+        openGroup,
+        chatOpenModal,
+        isChatModalOpen,
         handShowSettings,
         showSetting,
         getLoadUserAccessToken,

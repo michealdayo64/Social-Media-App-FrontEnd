@@ -20,6 +20,7 @@ const AppProvider = ({ children }) => {
   const [showPhoto, setShowPhoto] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [showAttachment, setShowAttachment] = useState(false);
+  const [isOpenPrivateChatMessage, setOpenPrivateChatMessage] = useState(false)
 
   const dispatch = useDispatch();
   const BASE_URL = "http://127.0.0.1:8000";
@@ -167,7 +168,11 @@ const AppProvider = ({ children }) => {
   }
 
   const closePrivateChat = () =>{
-    setOpenPrivateChat(false)
+    setOpenPrivateChat(!isOpenPrivateChat)
+  }
+
+  const openPrivateChatMessage = () =>{
+    setOpenPrivateChatMessage(!isOpenPrivateChatMessage)
   }
 
 
@@ -197,6 +202,8 @@ const AppProvider = ({ children }) => {
         closeGroup,
         openGroup,
         chatOpenModal,
+        openPrivateChatMessage,
+        isOpenPrivateChatMessage,
         isChatModalOpen,
         handShowSettings,
         showSetting,

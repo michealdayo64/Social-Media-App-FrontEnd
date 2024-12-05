@@ -1,6 +1,8 @@
 import React from "react";
 import "./Styles/chatmodal.css";
 import chatimage from "../assets/avartar.png";
+import { SlOptionsVertical } from "react-icons/sl";
+import { IoIosArrowBack } from "react-icons/io";
 import { useGlobalContext } from "../context";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -54,9 +56,30 @@ function ChatModal() {
           </div>
         ) : (
           <div>
-            <div className="private-chat-header">
-              <span className="head-chat">Chat List</span>
+            <div className="private-chat-header-message">
+              <div className="head-chat-message">
+                <IoIosArrowBack className="arrow" onClick={openPrivateChatMessage} />
+                <img src={chatimage} alt="hdhdhd" />
+              </div>
+              <span>Micheal</span>
+              <span className="head-chat-message-icon"><SlOptionsVertical /></span>
             </div>
+            <p>ncncincniiwincwc</p>
+            <p>ncncincniiwincwc</p>
+            <p>ncncincniiwincwc</p>
+            <p>ncncincniiwincwc</p>
+            <p>ncncincniiwincwc</p>
+            <p>ncncincniiwincwc</p>
+            <p>ncncincniiwincwc</p>
+            <p>ncncincniiwincwc</p>
+            <p>ncncincniiwincwc</p>
+
+            <p>ncncincniiwincwc</p>
+
+            <p>ncncincniiwincwc</p>
+            <p>ncncincniiwincwc</p>
+
+            <p>ncncincniiwincwc</p>
           </div>
         )}
       </div>

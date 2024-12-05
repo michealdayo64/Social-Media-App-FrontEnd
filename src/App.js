@@ -11,6 +11,8 @@ import Notifications from "./Pages/Notifications";
 import { useGlobalContext } from "./context";
 import { allPost } from "./Actions/socialActions";
 import { loadAllPost } from "./redux_folder/socialSlice";
+import { getLoadPrivateChatFriends } from "./Actions/chatActions"
+import { loadPrivateChatFriends } from "./redux_folder/chatSlice"
 
 const router = createBrowserRouter([
   {
@@ -86,6 +88,10 @@ function App() {
       const response = await allPost(`${accessData?.access}`);
       const data = await response.json();
       dispatch(loadAllPost(data));
+
+      const privateChatResponse = await getLoadPrivateChatFriends(`${accessData?.access}`)
+      const privateChatData = await privateChatResponse.json()
+      dispatch(loadPrivateChatFriends(privateChatData))
     }
   };
 

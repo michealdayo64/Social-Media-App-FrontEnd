@@ -9,8 +9,13 @@ function ChatModal() {
     useGlobalContext();
   const all = useSelector((state) => state.friend);
   const authState = useSelector((state) => state.auth);
+  const privateChatState = useSelector((state) => state.private_chat)
   const dispatch = useDispatch();
   const allUsers = all.users;
+  const privateChatFriends = privateChatState.chatFriends
+
+  console.log(privateChatFriends)
+
   return (
     <div
       className={`${
@@ -27,17 +32,17 @@ function ChatModal() {
             </div>
 
             <div className="chat-type">
-              {allUsers &&
-                allUsers.map((user) => {
+              {privateChatFriends &&
+                privateChatFriends.map((user) => {
                   return (
-                    <div key={user.pk}> 
+                    <div key={user.friend.pk}> 
                       <div
                         className="content-image-chat"
                         onClick={openPrivateChatMessage}
                       >
-                        <img src={chatimage} alt="chatimage" />
+                        <img src={user.friend.profile_image} alt="chatimage" />
                         <div className="content-chat">
-                          <span className="name">{user.username}</span>
+                          <span className="name">{user.friend.username}</span>
                           <span className="mychat">hhshhhahajahagaggaga</span>
                         </div>
                       </div>

@@ -85,8 +85,11 @@ function ChatModal() {
               <p>hello</p>
             </div>
             <div className="message-input">
+              <form>
               <input type="text" placeholder="Enter Message" />
-              <button>hello</button>
+              <button>send</button>
+              </form>
+              
             </div>
           </div>
         )}

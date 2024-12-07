@@ -153,8 +153,16 @@
   padding: 0;
 }
 
+.message-input form{
+  min-width: 100%;
+  display: flex;
+  background-color: red;
+  min-height: 100%;
+}
+
 .message-input input{
-  height: 10%;
+  min-width: 60px;
+  height: 40px;
 }
 
 .chat-modal-container .private-chat-header-message {

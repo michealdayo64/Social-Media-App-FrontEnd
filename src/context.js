@@ -13,14 +13,15 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isChatModalOpen, setChatModalOpen] = useState(false)
-  const [isOpenGroup, setOpenGroup] = useState(false)
-  const [isOpenPrivateChat, setOpenPrivateChat] = useState()
+  const [isChatModalOpen, setChatModalOpen] = useState(false);
+  const [isOpenGroup, setOpenGroup] = useState(false);
+  const [isOpenPrivateChat, setOpenPrivateChat] = useState();
   const [showSetting, setShowSettings] = useState(false);
   const [showPhoto, setShowPhoto] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [showAttachment, setShowAttachment] = useState(false);
-  const [isOpenPrivateChatMessage, setOpenPrivateChatMessage] = useState(false)
+  const [isOpenPrivateChatMessage, setOpenPrivateChatMessage] = useState(false);
+  const [getRoomId, setRoomId] = useState("");
 
   const dispatch = useDispatch();
   const BASE_URL = "http://127.0.0.1:8000";
@@ -151,32 +152,34 @@ const AppProvider = ({ children }) => {
     setIsModalOpen(false);
   };
 
-  const chatOpenModal = () =>{
-    setChatModalOpen(!isChatModalOpen)
-  }
+  const chatOpenModal = () => {
+    setChatModalOpen(!isChatModalOpen);
+  };
 
-  const openGroup = () =>{
-    setOpenGroup(true)
-  }
+  const openGroup = () => {
+    setOpenGroup(true);
+  };
 
-  const closeGroup = () =>{
-    setOpenGroup(false)
-  }
+  const closeGroup = () => {
+    setOpenGroup(false);
+  };
 
-  const openPrivateChat = () =>{
-    setOpenPrivateChat(true)
-  }
+  const openPrivateChat = () => {
+    setOpenPrivateChat(true);
+  };
 
-  const closePrivateChat = () =>{
-    setOpenPrivateChat(!isOpenPrivateChat)
-  }
+  const closePrivateChat = () => {
+    setOpenPrivateChat(!isOpenPrivateChat);
+  };
 
-  const openPrivateChatMessage = () =>{
-    setOpenPrivateChatMessage(!isOpenPrivateChatMessage)
-  }
-
-
-
+  const openPrivateChatMessage = (room_id = null) => {
+    setOpenPrivateChatMessage(!isOpenPrivateChatMessage);
+    if (room_id != null) {
+      setRoomId(room_id);
+    } else {
+      setRoomId("");
+    }
+  };
 
   return (
     <AppContext.Provider
@@ -211,6 +214,7 @@ const AppProvider = ({ children }) => {
         getTotalFriends,
         getTotalFriendRequest,
         getAllUser,
+        getRoomId,
       }}
     >
       {children}

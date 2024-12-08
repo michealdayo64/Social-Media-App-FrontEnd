@@ -5,9 +5,10 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { IoIosArrowBack } from "react-icons/io";
 import { useGlobalContext } from "../context";
 import { useSelector, useDispatch } from "react-redux";
+import useWebSocket, { ReadyState } from "react-use-websocket";
 
 function ChatModal() {
-  const { isChatModalOpen, isOpenPrivateChatMessage, openPrivateChatMessage } =
+  const { isChatModalOpen, isOpenPrivateChatMessage, openPrivateChatMessage, getRoomId } =
     useGlobalContext();
   const all = useSelector((state) => state.friend);
   const authState = useSelector((state) => state.auth);
@@ -16,7 +17,22 @@ function ChatModal() {
   const allUsers = all.users;
   const privateChatFriends = privateChatState.chatFriends;
 
-  console.log(privateChatFriends);
+  const { readyState } = useWebSocket(`ws://127.0.0.1:8000/chat/${getRoomId}/`, {
+    onOpen: () => {
+      console.log(`Connected! to Room ${getRoomId}`);
+    },
+    onClose: () => {
+      console.log("Disconnected!");
+    }
+  });
+
+  const connectionStatus = {
+    [ReadyState.CONNECTING]: "Connecting",
+    [ReadyState.OPEN]: "Open",
+    [ReadyState.CLOSING]: "Closing",
+    [ReadyState.CLOSED]: "Closed",
+    [ReadyState.UNINSTANTIATED]: "Uninstantiated"
+  }[readyState];
 
   return (
     <div
@@ -40,7 +56,7 @@ function ChatModal() {
                     <div key={user.friend.pk}>
                       <div
                         className="content-image-chat-space"
-                        onClick={openPrivateChatMessage}
+                        onClick={() => openPrivateChatMessage(user.friend.pk)}
                       >
                         <div className="content-image-chat">
                           <img

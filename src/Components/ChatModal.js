@@ -8,31 +8,50 @@ import { useSelector, useDispatch } from "react-redux";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 
 function ChatModal() {
-  const { isChatModalOpen, isOpenPrivateChatMessage, openPrivateChatMessage, getRoomId } =
-    useGlobalContext();
+  const {
+    isChatModalOpen,
+    isOpenPrivateChatMessage,
+    openPrivateChatMessage,
+    getRoomId,
+  } = useGlobalContext();
   const all = useSelector((state) => state.friend);
   const authState = useSelector((state) => state.auth);
   const privateChatState = useSelector((state) => state.private_chat);
   const dispatch = useDispatch();
   const allUsers = all.users;
   const privateChatFriends = privateChatState.chatFriends;
+  const accessToken = authState.access;
+  //console.log(getRoomId)
 
-  const { readyState } = useWebSocket(`ws://127.0.0.1:8000/chat/${getRoomId}/`, {
-    onOpen: () => {
-      console.log(`Connected! to Room ${getRoomId}`);
-    },
-    onClose: () => {
-      console.log("Disconnected!");
+  const { readyState, sendJsonMessage } = useWebSocket(
+    `ws://127.0.0.1:8000/chat/${getRoomId}/`,
+    {
+      onOpen: () => {
+        console.log(`Connected! to Room ${getRoomId}`);
+        sendJsonMessage({
+          command: "join",
+          room: getRoomId,
+        });
+      },
+      onClose: () => {
+        console.log("Disconnected!");
+      },
+      onMessage: (e) =>{
+        const data = JSON.parse(e.data);
+        console.log(data)
+      }
     }
-  });
+  );
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
     [ReadyState.OPEN]: "Open",
     [ReadyState.CLOSING]: "Closing",
     [ReadyState.CLOSED]: "Closed",
-    [ReadyState.UNINSTANTIATED]: "Uninstantiated"
+    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState];
+
+  console.log(connectionStatus)
 
   return (
     <div
@@ -56,7 +75,9 @@ function ChatModal() {
                     <div key={user.friend.pk}>
                       <div
                         className="content-image-chat-space"
-                        onClick={() => openPrivateChatMessage(user.friend.pk)}
+                        onClick={() =>
+                          openPrivateChatMessage(accessToken, user.friend.pk)
+                        }
                       >
                         <div className="content-image-chat">
                           <img
@@ -84,7 +105,7 @@ function ChatModal() {
               <div className="head-chat-message">
                 <IoIosArrowBack
                   className="arrow"
-                  onClick={openPrivateChatMessage}
+                  onClick={() => openPrivateChatMessage()}
                 />
                 <img src={chatimage} alt="hdhdhd" />
               </div>
@@ -102,10 +123,9 @@ function ChatModal() {
             </div>
             <div className="message-input">
               <form>
-              <input type="text" placeholder="Enter Message" />
-              <button>send</button>
+                <input type="text" placeholder="Enter Message" />
+                <button>send</button>
               </form>
-              
             </div>
           </div>
         )}

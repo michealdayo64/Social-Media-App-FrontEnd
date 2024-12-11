@@ -24,10 +24,10 @@ const AppProvider = ({ children }) => {
   const [getRoomId, setRoomId] = useState("");
 
   const dispatch = useDispatch();
-  const BASE_URL = "http://127.0.0.1:8000";
+  let BASE_URL = "http://127.0.0.1:8000";
 
   const getLoadUserAccessToken = async (refresh, userdata) => {
-    const url = "http://127.0.0.1:8000/account/token/refresh/";
+    const url = `${BASE_URL}/account/token/refresh/`;
     const response = await fetch(url, {
       method: "POST",
       body: JSON.stringify({ refresh: refresh }),
@@ -89,6 +89,20 @@ const AppProvider = ({ children }) => {
     if (response.status === 200) {
       dispatch(loadTotalFriendRequest(data));
     }
+  };
+
+  const createOrReturnPrivateChat = async (access, id) => {
+    const url = `${BASE_URL}/message/create-or-return-private-chat-api/${id}/`;
+    const response = await fetch(url, {
+      body: null,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${access}`,
+      },
+    });
+    const data = await response.json();
+    return data;
   };
 
   const handShowSettings = () => {
@@ -172,10 +186,12 @@ const AppProvider = ({ children }) => {
     setOpenPrivateChat(!isOpenPrivateChat);
   };
 
-  const openPrivateChatMessage = (room_id = null) => {
+  const openPrivateChatMessage = async (access = null, user2_id = null) => {
     setOpenPrivateChatMessage(!isOpenPrivateChatMessage);
-    if (room_id != null) {
-      setRoomId(room_id);
+    if (user2_id != null && access != null) {
+      const room_id = await createOrReturnPrivateChat(access, user2_id);
+      console.log(room_id)
+      setRoomId(room_id["chatroom_id"]);
     } else {
       setRoomId("");
     }

@@ -4,55 +4,14 @@ import chatimage from "../assets/avartar.png";
 import { SlOptionsVertical } from "react-icons/sl";
 import { IoIosArrowBack } from "react-icons/io";
 import { useGlobalContext } from "../context";
-import { useSelector, useDispatch } from "react-redux";
-import useWebSocket, { ReadyState } from "react-use-websocket";
+import { useSelector } from "react-redux";
+import ChatList from "./ChatList";
 
 function ChatModal() {
-  const {
-    isChatModalOpen,
-    isOpenPrivateChatMessage,
-    openPrivateChatMessage,
-    getRoomId,
-  } = useGlobalContext();
-  const all = useSelector((state) => state.friend);
-  const authState = useSelector((state) => state.auth);
+  const { isChatModalOpen, isOpenPrivateChatMessage, openPrivateChatMessage } =
+    useGlobalContext();
   const privateChatState = useSelector((state) => state.private_chat);
-  const dispatch = useDispatch();
-  const allUsers = all.users;
   const privateChatFriends = privateChatState.chatFriends;
-  const accessToken = authState.access;
-  //console.log(getRoomId)
-
-  const { readyState, sendJsonMessage } = useWebSocket(
-    `ws://127.0.0.1:8000/chat/${getRoomId}/`,
-    {
-      onOpen: () => {
-        console.log(`Connected! to Room ${getRoomId}`);
-        sendJsonMessage({
-          command: "join",
-          room: getRoomId,
-        });
-      },
-      onClose: () => {
-        console.log("Disconnected!");
-      },
-      onMessage: (e) =>{
-        const data = JSON.parse(e.data);
-        console.log(data)
-      }
-    }
-  );
-
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: "Connecting",
-    [ReadyState.OPEN]: "Open",
-    [ReadyState.CLOSING]: "Closing",
-    [ReadyState.CLOSED]: "Closed",
-    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
-  }[readyState];
-
-  console.log(connectionStatus)
-
   return (
     <div
       className={`${
@@ -63,42 +22,10 @@ function ChatModal() {
     >
       <div className="chat-modal-container">
         {!isOpenPrivateChatMessage ? (
-          <div>
-            <div className="private-chat-header">
-              <span className="head-chat">Chat List</span>
-            </div>
-
-            <div className="chat-type">
-              {privateChatFriends &&
-                privateChatFriends.map((user) => {
-                  return (
-                    <div key={user.friend.pk}>
-                      <div
-                        className="content-image-chat-space"
-                        onClick={() =>
-                          openPrivateChatMessage(accessToken, user.friend.pk)
-                        }
-                      >
-                        <div className="content-image-chat">
-                          <img
-                            src={user.friend.profile_image}
-                            alt="chatimage"
-                          />
-                          <div className="content-chat">
-                            <span className="name">{user.friend.username}</span>
-                            <span className="mychat">hhshhhahajahagaggaga</span>
-                          </div>
-                        </div>
-                        <div className="chat-time">
-                          <span>2:44</span>
-                        </div>
-                      </div>
-                      <hr></hr>
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
+          <ChatList
+            privateChatFriends={privateChatFriends}
+            openPrivateChatMessage={openPrivateChatMessage}
+          />
         ) : (
           <div className="private-chat-header-message-space">
             <div className="private-chat-header-message">

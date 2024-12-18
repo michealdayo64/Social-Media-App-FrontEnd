@@ -190,7 +190,6 @@ const AppProvider = ({ children }) => {
     setOpenPrivateChatMessage(!isOpenPrivateChatMessage);
     if (user2_id != null && access != null) {
       const room_id = await createOrReturnPrivateChat(access, user2_id);
-      console.log(room_id)
       setRoomId(room_id["chatroom_id"]);
     } else {
       setRoomId("");

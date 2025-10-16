@@ -6,11 +6,11 @@ import ChatList from "./ChatList";
 import ChatMessage from "./ChatMessage";
 
 function ChatModal() {
-  const { isChatModalOpen, isOpenPrivateChatMessage, openPrivateChatMessage } =
+  const { isChatModalOpen, isOpenPrivateChatMessage, openPrivateChatMessage, getRoomId } =
     useGlobalContext();
   const privateChatState = useSelector((state) => state.private_chat);
   const privateChatFriends = privateChatState.chatFriends;
-  const { getRoomId } = useGlobalContext();
+  
   const authState = useSelector((state) => state.auth);
   const accessToken = authState.access;
   const user = authState.user;

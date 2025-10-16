@@ -5,9 +5,11 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { IoIosArrowBack } from "react-icons/io";
 
 function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
+  const room = getRoomId || "default-room";
   const [inputText, setInputText] = useState("");
+  const [userInfo, setUserInfo] = useState({});
   const { readyState, sendJsonMessage } = useWebSocket(
-    user ? `ws://127.0.0.1:8000/chat/${getRoomId}/` : null,
+    user ? `ws://127.0.0.1:8000/chat/${room}/` : null,
     {
       queryParams: {
         token: user ? accessToken : "",
@@ -20,15 +22,25 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
           room: getRoomId,
         });
       },
+
       onClose: () => {
         console.log("Disconnected!");
       },
+
       onMessage: (e) => {
         const data = JSON.parse(e.data);
-        console.log(data);
+        //console.log(data);
+        if (data.join) {
+          getUserInfo();
+        }
+        if (data.user_info) {
+          setUserInfo(data.user_info);
+        }
       },
     }
   );
+
+  console.log(userInfo);
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
@@ -38,7 +50,12 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
     [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState];
 
-  console.log(connectionStatus);
+  const getUserInfo = () => {
+    sendJsonMessage({
+      command: "get_user_info",
+      room_id: getRoomId,
+    });
+  };
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -55,7 +72,7 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
       message: inputText,
       room: getRoomId,
     });
-    setInputText("")
+    setInputText("");
   };
 
   return (
@@ -66,9 +83,9 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
             className="arrow"
             onClick={() => openPrivateChatMessage()}
           />
-          <img src={chatimage} alt="hdhdhd" />
+          <img src={userInfo.profile_image || ""} alt="hdhdhd" />
         </div>
-        <span>Micheal</span>
+        <span>{userInfo.username || ""}</span>
         <span className="head-chat-message-icon">
           <SlOptionsVertical />
         </span>

@@ -86,6 +86,7 @@
 .content-image-chat .content-chat .mychat {
   font-size: 13px;
   margin-top: 5px;
+  color: blue;
 }
 
 .chat-modal-container .private-chat-header {

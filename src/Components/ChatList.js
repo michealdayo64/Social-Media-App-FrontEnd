@@ -11,7 +11,7 @@ function ChatList({ privateChatFriends, openPrivateChatMessage, accessToken }) {
         {privateChatFriends &&
           privateChatFriends.map((user) => {
             return (
-              <div key={user.friend.pk}>
+              <div key={user.room}>
                 <div
                   className="content-image-chat-space"
                   onClick={() =>
@@ -22,11 +22,16 @@ function ChatList({ privateChatFriends, openPrivateChatMessage, accessToken }) {
                     <img src={user.friend.profile_image} alt="chatimage" />
                     <div className="content-chat">
                       <span className="name">{user.friend.username}</span>
-                      <span className="mychat">hhshhhahajahagaggaga</span>
+                      <span className="mychat">
+                        {`${user.message.content.length > -1}`
+                          ? `${user.message.content.slice(0, 10)}...`
+                          : ""}
+                      
+                      </span>
                     </div>
                   </div>
                   <div className="chat-time">
-                    <span>2:44</span>
+                    <span>{user.time}</span>
                   </div>
                 </div>
                 <hr></hr>

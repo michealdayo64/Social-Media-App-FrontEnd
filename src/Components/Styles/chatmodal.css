@@ -70,8 +70,13 @@
   cursor: pointer;
 }
 
+.page-number {
+  display: none;
+}
+
 .content-image-chat-space .chat-time span {
   color: #000000;
+  font-size: small;
 }
 
 .content-image-chat .content-chat span {
@@ -132,38 +137,110 @@
 .chat-modal-container .private-chat-header-message-space {
   display: flex;
   flex-direction: column;
-  overflow-x: none;
+  overflow-x: hidden;
   background-color: red;
   height: 100%;
 }
 
 .private-chat-header-message-space .message-container {
-  background-color: green;
+  background-color: rgb(250, 251, 250);
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
+  padding: 10px;
+  flex-direction: column-reverse;
+  overflow-x: hidden;
+  display: flex;
+}
+
+.message-container .msg-details {
+  width: 80%;
+  display: flex;
+  align-items: left;
+  background-color: red;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.message-container .msg-details-user {
+  width: 80%;
+  display: flex;
+  align-items: left;
+  background-color: #ffd37d;
+  margin-left: 15%;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.msg-details img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.msg-details-user img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.msg-details .name-msg {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  word-break: break-all;
+}
+
+.msg-details-user .name-msg {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  word-break: break-all;
+}
+
+.msg-details .name-msg .user {
+  color: #000000;
+  font-size: 15px;
+}
+
+.msg-details-user .name-msg .user {
+  color: #000000;
+  font-size: 15px;
+}
+
+.msg-text {
+  font-weight: normal;
+  color: blue;
+  margin-top: 7px;
+  font-size: 12px;
 }
 
 .private-chat-header-message-space .message-input {
   background-color: blue;
-  height: 60px;
+  height: 40px;
   z-index: 1;
   position: sticky;
   bottom: 0;
   display: flex;
-  justify-content: space-between;
-  padding: 0;
+  padding: 5px;
 }
 
-.message-input form{
-  min-width: 100%;
+.message-input form {
   display: flex;
   background-color: red;
-  min-height: 100%;
+  height: 100%;
+  align-items: center;
+
 }
 
-.message-input input{
-  min-width: 60px;
-  height: 40px;
+.message-input input {
+  width: 70%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.message-input button{
+  height: 100%;
+  width: 30%;
 }
 
 .chat-modal-container .private-chat-header-message {

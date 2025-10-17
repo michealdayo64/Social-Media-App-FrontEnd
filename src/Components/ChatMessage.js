@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import chatimage from "../assets/avartar.png";
 import { SlOptionsVertical } from "react-icons/sl";
 import { IoIosArrowBack } from "react-icons/io";
+import profileImg from "./assets/avatar.png";
 
 function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
   const room = getRoomId || "default-room";
   const [inputText, setInputText] = useState("");
   const [userInfo, setUserInfo] = useState({});
+  //const [user1, setUser1] = useState(false);
+  const [getMessages, setMessages] = useState([]);
+
   const { readyState, sendJsonMessage } = useWebSocket(
     user ? `ws://127.0.0.1:8000/chat/${room}/` : null,
     {
@@ -32,15 +35,20 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
         //console.log(data);
         if (data.join) {
           getUserInfo();
+          getRoomChatMessages();
+          //setUser1(true);
         }
         if (data.user_info) {
           setUserInfo(data.user_info);
         }
+
+        if (data.messages_payload) {
+          //console.log(data.messages);
+          handleMessagePayload(data.messages, data.new_page_number);
+        }
       },
     }
   );
-
-  console.log(userInfo);
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
@@ -49,6 +57,29 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
     [ReadyState.CLOSED]: "Closed",
     [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState];
+
+  const setPageNumber = (pageNumber) => {
+    document.getElementById("id_page_number").innerHTML = pageNumber;
+  };
+
+  const handleMessagePayload = (messages, pageNumber) => {
+    if (messages !== null && messages !== "undefined" && messages !== "None") {
+      setPageNumber(pageNumber);
+        setMessages(messages);
+    }
+  };
+
+  const getRoomChatMessages = () => {
+    var pageNumber = document.getElementById("id_page_number").innerHTML;
+    if (pageNumber !== "-1") {
+      setPageNumber("-1");
+      sendJsonMessage({
+        command: "get_room_chat_messages",
+        room_id: getRoomId,
+        page_number: pageNumber,
+      });
+    }
+  };
 
   const getUserInfo = () => {
     sendJsonMessage({
@@ -74,6 +105,8 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
     });
     setInputText("");
   };
+console.log(getMessages)
+  
 
   return (
     <div className="private-chat-header-message-space">
@@ -91,13 +124,27 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
         </span>
       </div>
       <div className="message-container">
-        <p>hello</p>
-        <p>hello</p>
-        <p>hello</p>
-        <p>hello</p>
-        <p>hello</p>
+        {getMessages &&
+          getMessages.map((mmsg) => {
+            const { msg_type, msg_id, user1, user2, user_id, username, message, natural_timestamp } = mmsg;
+            return (
+              <div>
+                <div className={user1 === username ? "msg-details": "msg-details-user"} key={msg_id}>
+                  <img src={profileImg} alt="profile-img" />
+                  <div className="name-msg">
+                    <span className="user"> {username}: {natural_timestamp}</span>
+                    <span className="msg-text">{message}</span>
+                  </div>
+                </div>
+                <br />
+              </div>
+            );
+          })}
       </div>
       <div className="message-input">
+        <span className="page-number" id="id_page_number">
+          1
+        </span>
         <form>
           <input
             type="text"

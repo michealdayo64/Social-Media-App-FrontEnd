@@ -23,10 +23,7 @@ function ChatList({ privateChatFriends, openPrivateChatMessage, accessToken }) {
                     <div className="content-chat">
                       <span className="name">{user.friend.username}</span>
                       <span className="mychat">
-                        {`${user.message.content.length > -1}`
-                          ? `${user.message.content.slice(0, 10)}...`
-                          : ""}
-                      
+                        {user.message.content.slice(0, 10)}
                       </span>
                     </div>
                   </div>

@@ -9,7 +9,7 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
   const [inputText, setInputText] = useState("");
   const [userInfo, setUserInfo] = useState({});
   //const [user1, setUser1] = useState(false);
-  const [getMessages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]);
 
   const { readyState, sendJsonMessage } = useWebSocket(
     user ? `ws://127.0.0.1:8000/chat/${room}/` : null,
@@ -46,6 +46,17 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
           //console.log(data.messages);
           handleMessagePayload(data.messages, data.new_page_number);
         }
+
+        if (data.msg_type === 0) {
+          console.log(data.message);
+          const msg_data = {
+            username: data.username,
+            profile_image: data.profile_image,
+            message: data.message,
+            natural_timestamp: data.natural_timestamp,
+          };
+          setMessages((prevMessages) => [...prevMessages, msg_data]);
+        }
       },
     }
   );
@@ -65,7 +76,12 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
   const handleMessagePayload = (messages, pageNumber) => {
     if (messages !== null && messages !== "undefined" && messages !== "None") {
       setPageNumber(pageNumber);
-        setMessages(messages);
+      setMessages((prevMessages) => {
+      const newMessages = messages.filter(
+        (msg) => !prevMessages.some((m) => m.msg_id === msg.msg_id)
+      );
+      return [...prevMessages, ...newMessages];
+    });
     }
   };
 
@@ -91,7 +107,7 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
   const handleChange = (e) => {
     e.preventDefault();
     const inputValue = e.target.value;
-    if (inputValue) {
+    if (inputValue.length > -1) {
       setInputText(inputValue);
     }
   };
@@ -105,8 +121,6 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
     });
     setInputText("");
   };
-console.log(getMessages)
-  
 
   return (
     <div className="private-chat-header-message-space">
@@ -124,15 +138,31 @@ console.log(getMessages)
         </span>
       </div>
       <div className="message-container">
-        {getMessages &&
-          getMessages.map((mmsg) => {
-            const { msg_type, msg_id, user1, user2, user_id, username, message, natural_timestamp } = mmsg;
+        {messages &&
+          messages.map((mmsg, index) => {
+            const {
+              msg_type,
+              msg_id,
+              user1,
+              user2,
+              user_id,
+              username,
+              message,
+              natural_timestamp,
+            } = mmsg;
             return (
-              <div>
-                <div className={user1 === username ? "msg-details": "msg-details-user"} key={msg_id}>
+              <div key={msg_id || index}>
+                <div
+                  className={
+                    user1 === username ? "msg-details" : "msg-details-user"
+                  }
+                >
                   <img src={profileImg} alt="profile-img" />
                   <div className="name-msg">
-                    <span className="user"> {username}: {natural_timestamp}</span>
+                    <span className="user">
+                      {" "}
+                      {username}: {natural_timestamp}
+                    </span>
                     <span className="msg-text">{message}</span>
                   </div>
                 </div>

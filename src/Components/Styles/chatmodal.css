@@ -215,7 +215,6 @@
 }
 
 .private-chat-header-message-space .message-input {
-  background-color: blue;
   height: 40px;
   z-index: 1;
   position: sticky;
@@ -226,21 +225,18 @@
 
 .message-input form {
   display: flex;
-  background-color: red;
   height: 100%;
   align-items: center;
-
+  width: 92%;
 }
 
 .message-input input {
-  width: 70%;
   height: 100%;
   border-radius: 10px;
 }
 
 .message-input button{
   height: 100%;
-  width: 30%;
 }
 
 .chat-modal-container .private-chat-header-message {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { SlOptionsVertical } from "react-icons/sl";
 import { IoIosArrowBack } from "react-icons/io";
@@ -10,6 +10,9 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
   const [userInfo, setUserInfo] = useState({});
   //const [user1, setUser1] = useState(false);
   const [messages, setMessages] = useState([]);
+
+  const messagesRef = useRef(messages);
+  messagesRef.current = messages;
 
   const { readyState, sendJsonMessage } = useWebSocket(
     user ? `ws://127.0.0.1:8000/chat/${room}/` : null,
@@ -69,6 +72,43 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
     [ReadyState.UNINSTANTIATED]: "Uninstantiated",
   }[readyState];
 
+  useEffect(() => {
+    if (!user) return;
+    const handleSocketMessage = (e) => {
+      const data = JSON.parse(e.data);
+
+      if (data.join) {
+        getUserInfo();
+        getRoomChatMessages();
+      }
+
+      if (data.user_info) setUserInfo(data.user_info);
+
+      if (data.messages_payload) {
+        handleMessagePayload(data.messages, data.new_page_number);
+      }
+
+      if (data.msg_type === 0) {
+        const msgData = {
+          username: data.username,
+          profile_image: data.profile_image,
+          message: data.message,
+          natural_timestamp: data.natural_timestamp,
+        };
+
+        // ✅ Use ref to avoid stale closures
+        setMessages([...messagesRef.current, msgData]);
+      }
+    };
+
+    const ws = new WebSocket(`ws://127.0.0.1:8000/chat/${room}/?token=${accessToken}`);
+    ws.onmessage = handleSocketMessage;
+    ws.onopen = () => console.log("WebSocket connection established.");
+    ws.onclose = () => console.log("WebSocket closed.");
+
+    return () => ws.close();
+  }, [user, room, accessToken]);
+
   const setPageNumber = (pageNumber) => {
     document.getElementById("id_page_number").innerHTML = pageNumber;
   };
@@ -77,11 +117,11 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
     if (messages !== null && messages !== "undefined" && messages !== "None") {
       setPageNumber(pageNumber);
       setMessages((prevMessages) => {
-      const newMessages = messages.filter(
-        (msg) => !prevMessages.some((m) => m.msg_id === msg.msg_id)
-      );
-      return [...prevMessages, ...newMessages];
-    });
+        const newMessages = messages.filter(
+          (msg) => !prevMessages.some((m) => m.msg_id === msg.msg_id)
+        );
+        return [...prevMessages, ...newMessages];
+      });
     }
   };
 

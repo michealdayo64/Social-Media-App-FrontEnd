@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import useWebSocket, { ReadyState } from "react-use-websocket";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+//import useWebSocket, { ReadyState } from "react-use-websocket";
 import { SlOptionsVertical } from "react-icons/sl";
 import { IoIosArrowBack } from "react-icons/io";
 import profileImg from "./assets/avatar.png";
@@ -8,74 +8,61 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
   const room = getRoomId || "default-room";
   const [inputText, setInputText] = useState("");
   const [userInfo, setUserInfo] = useState({});
-  //const [user1, setUser1] = useState(false);
+  const [pageNumber, setPageNumber] = useState("1");
   const [messages, setMessages] = useState([]);
 
-  const messagesRef = useRef(messages);
-  messagesRef.current = messages;
+  const socketRef = useRef(null);
 
-  const { readyState, sendJsonMessage } = useWebSocket(
-    user ? `ws://127.0.0.1:8000/chat/${room}/` : null,
-    {
-      queryParams: {
-        token: user ? accessToken : "",
-      },
-
-      onOpen: () => {
-        console.log(`Connected! to Room`);
-        sendJsonMessage({
-          command: "join",
-          room: getRoomId,
-        });
-      },
-
-      onClose: () => {
-        console.log("Disconnected!");
-      },
-
-      onMessage: (e) => {
-        const data = JSON.parse(e.data);
-        //console.log(data);
-        if (data.join) {
-          getUserInfo();
-          getRoomChatMessages();
-          //setUser1(true);
-        }
-        if (data.user_info) {
-          setUserInfo(data.user_info);
-        }
-
-        if (data.messages_payload) {
-          //console.log(data.messages);
-          handleMessagePayload(data.messages, data.new_page_number);
-        }
-
-        if (data.msg_type === 0) {
-          console.log(data.message);
-          const msg_data = {
-            username: data.username,
-            profile_image: data.profile_image,
-            message: data.message,
-            natural_timestamp: data.natural_timestamp,
-          };
-          setMessages((prevMessages) => [...prevMessages, msg_data]);
-        }
-      },
+  const getRoomChatMessages = useCallback(() => {
+    if (pageNumber !== "-1") {
+      setPageNumber("-1");
+      socketRef.current?.send(
+        JSON.stringify({
+          command: "get_room_chat_messages",
+          room_id: getRoomId,
+          page_number: pageNumber,
+        })
+      );
     }
-  );
+  }, [getRoomId, pageNumber]);
 
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: "Connecting",
-    [ReadyState.OPEN]: "Open",
-    [ReadyState.CLOSING]: "Closing",
-    [ReadyState.CLOSED]: "Closed",
-    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
-  }[readyState];
+  const getUserInfo = useCallback(() => {
+    socketRef.current?.send(
+      JSON.stringify({
+        command: "get_user_info",
+        room_id: getRoomId,
+      })
+    );
+  }, [getRoomId]);
 
-  useEffect(() => {
-    if (!user) return;
-    const handleSocketMessage = (e) => {
+  const handleMessagePayload = useCallback((messages, pageNumber) => {
+    if (messages !== null && messages !== "undefined" && messages !== "None") {
+      setPageNumber(pageNumber);
+      setMessages((prevMessages) => {
+        const newMessages = messages.filter(
+          (msg) => !prevMessages.some((m) => m.msg_id === msg.msg_id)
+        );
+        console.log("New Messages:", newMessages, prevMessages);
+        return [...prevMessages, ...newMessages];
+      });
+    }
+  }, []);
+
+  const connect_messages = useCallback(() => {
+    if (!room || !accessToken) return;
+
+    const socketUrl = `ws://127.0.0.1:8000/chat/${room}/?token=${accessToken}`;
+    const socket = new WebSocket(socketUrl);
+    socketRef.current = socket;
+
+    socket.onopen = () => {
+      console.log("✅ Connected to WebSocket");
+      socket.send(JSON.stringify({ command: "join", room: room }));
+    };
+
+    socket.onmessage = (e) => {
       const data = JSON.parse(e.data);
+      //console.log(data);
 
       if (data.join) {
         getUserInfo();
@@ -95,54 +82,28 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
           message: data.message,
           natural_timestamp: data.natural_timestamp,
         };
-
-        // ✅ Use ref to avoid stale closures
-        setMessages([...messagesRef.current, msgData]);
+        console.log(msgData);
+        setMessages((prev) => [...prev, { ...msgData }]);
       }
     };
 
-    const ws = new WebSocket(`ws://127.0.0.1:8000/chat/${room}/?token=${accessToken}`);
-    ws.onmessage = handleSocketMessage;
-    ws.onopen = () => console.log("WebSocket connection established.");
-    ws.onclose = () => console.log("WebSocket closed.");
+    socket.onclose = (e) => {
+      console.log("❌ Socket closed, reconnecting...", e.reason);
+      setTimeout(() => connect_messages(), 2000);
+    };
 
-    return () => ws.close();
-  }, [user, room, accessToken]);
+    socket.onerror = (err) => {
+      console.error("⚠️ Socket error:", err);
+      socket.close();
+    };
+  }, [room, accessToken, getUserInfo, getRoomChatMessages, handleMessagePayload]);
 
-  const setPageNumber = (pageNumber) => {
-    document.getElementById("id_page_number").innerHTML = pageNumber;
-  };
+  useEffect(() => {
+    connect_messages();
+    return () => socketRef.current?.close();
+  }, [connect_messages]);
 
-  const handleMessagePayload = (messages, pageNumber) => {
-    if (messages !== null && messages !== "undefined" && messages !== "None") {
-      setPageNumber(pageNumber);
-      setMessages((prevMessages) => {
-        const newMessages = messages.filter(
-          (msg) => !prevMessages.some((m) => m.msg_id === msg.msg_id)
-        );
-        return [...prevMessages, ...newMessages];
-      });
-    }
-  };
-
-  const getRoomChatMessages = () => {
-    var pageNumber = document.getElementById("id_page_number").innerHTML;
-    if (pageNumber !== "-1") {
-      setPageNumber("-1");
-      sendJsonMessage({
-        command: "get_room_chat_messages",
-        room_id: getRoomId,
-        page_number: pageNumber,
-      });
-    }
-  };
-
-  const getUserInfo = () => {
-    sendJsonMessage({
-      command: "get_user_info",
-      room_id: getRoomId,
-    });
-  };
+  
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -154,12 +115,17 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
 
   const submitMessage = (e) => {
     e.preventDefault();
-    sendJsonMessage({
-      command: "send",
-      message: inputText,
-      room: getRoomId,
-    });
-    setInputText("");
+    const socket = socketRef.current;
+    if (socket && inputText.trim()) {
+      socket.send(
+        JSON.stringify({
+          command: "send",
+          message: inputText,
+          room: room,
+        })
+      );
+      setInputText("");
+    }
   };
 
   return (
@@ -191,7 +157,9 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
               natural_timestamp,
             } = mmsg;
             return (
-              <div key={msg_id || index}>
+              <div
+                key={`${msg_id ?? `${username}-${natural_timestamp}-${index}`}`}
+              >
                 <div
                   className={
                     user1 === username ? "msg-details" : "msg-details-user"
@@ -213,7 +181,7 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
       </div>
       <div className="message-input">
         <span className="page-number" id="id_page_number">
-          1
+          {pageNumber}
         </span>
         <form>
           <input

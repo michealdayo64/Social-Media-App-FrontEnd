@@ -10,13 +10,14 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
   const [userInfo, setUserInfo] = useState({});
   const [pageNumber, setPageNumber] = useState("1");
   const [messages, setMessages] = useState([]);
+  const [socketConnection, setSocketConnection] = useState("");
 
-  const socketRef = useRef(null);
+  //let socketRef = useRef(null);
 
   const getRoomChatMessages = useCallback(() => {
     if (pageNumber !== "-1") {
       setPageNumber("-1");
-      socketRef.current?.send(
+      socketConnection.send(
         JSON.stringify({
           command: "get_room_chat_messages",
           room_id: getRoomId,
@@ -24,40 +25,42 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
         })
       );
     }
-  }, [getRoomId, pageNumber]);
+  }, [getRoomId, pageNumber, socketConnection]);
 
   const getUserInfo = useCallback(() => {
-    socketRef.current?.send(
+    socketConnection.send(
       JSON.stringify({
         command: "get_user_info",
         room_id: getRoomId,
       })
     );
-  }, [getRoomId]);
+  }, [getRoomId, socketConnection]);
 
   const handleMessagePayload = useCallback((messages, pageNumber) => {
     if (messages !== null && messages !== "undefined" && messages !== "None") {
       setPageNumber(pageNumber);
-      setMessages((prevMessages) => {
-        const newMessages = messages.filter(
-          (msg) => !prevMessages.some((m) => m.msg_id === msg.msg_id)
-        );
-        console.log("New Messages:", newMessages, prevMessages);
-        return [...prevMessages, ...newMessages];
-      });
+      setMessages(messages);
     }
   }, []);
 
-  const connect_messages = useCallback(() => {
-    if (!room || !accessToken) return;
+  /**const connect_messages = useCallback(() => {}, [
+    room,
+    accessToken,
+    getUserInfo,
+    getRoomChatMessages,
+    handleMessagePayload,
+  ]);**/
 
-    const socketUrl = `ws://127.0.0.1:8000/chat/${room}/?token=${accessToken}`;
-    const socket = new WebSocket(socketUrl);
-    socketRef.current = socket;
+  useEffect(() => {
+    if (!room || !accessToken) return;
+    let socketUrl = `ws://127.0.0.1:8000/chat/${room}/?token=${accessToken}`;
+    let socket = new WebSocket(socketUrl);
+    //socketRef.current = socket;
 
     socket.onopen = () => {
       console.log("✅ Connected to WebSocket");
       socket.send(JSON.stringify({ command: "join", room: room }));
+      setSocketConnection(socket);
     };
 
     socket.onmessage = (e) => {
@@ -83,27 +86,25 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
           natural_timestamp: data.natural_timestamp,
         };
         console.log(msgData);
-        setMessages((prev) => [...prev, { ...msgData }]);
+        setMessages((prev) => [...prev, msgData]);
       }
     };
 
     socket.onclose = (e) => {
       console.log("❌ Socket closed, reconnecting...", e.reason);
-      setTimeout(() => connect_messages(), 2000);
+      //setTimeout(() => connect_messages(), 2000);
     };
 
     socket.onerror = (err) => {
       console.error("⚠️ Socket error:", err);
       socket.close();
     };
-  }, [room, accessToken, getUserInfo, getRoomChatMessages, handleMessagePayload]);
-
-  useEffect(() => {
-    connect_messages();
-    return () => socketRef.current?.close();
-  }, [connect_messages]);
-
-  
+    //connect_messages();
+    //return () => socketRef.current?.close();
+  }, [
+    room,
+    accessToken
+  ]);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -115,9 +116,9 @@ function ChatMessage({ user, getRoomId, openPrivateChatMessage, accessToken }) {
 
   const submitMessage = (e) => {
     e.preventDefault();
-    const socket = socketRef.current;
-    if (socket && inputText.trim()) {
-      socket.send(
+
+    if (socketConnection && inputText.trim()) {
+      socketConnection.send(
         JSON.stringify({
           command: "send",
           message: inputText,

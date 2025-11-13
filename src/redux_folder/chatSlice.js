@@ -4,6 +4,7 @@ export const PrivateChatSlice = createSlice({
   name: "private_chat",
   initialState: {
     chatFriends: null,
+    messages: null,
   },
 
   reducers: {
@@ -13,11 +14,19 @@ export const PrivateChatSlice = createSlice({
         chatFriends: action.payload.m_and_f,
       };
     },
+    loadPrivateChatFriendMessages: (state, action) => {
+      console.log("Reducer called with messages:", action.payload.messages);
+      return {
+        ...state,
+        messages: action.payload.messages,
+      };
+    }
   },
 });
 
 export const {
-  loadPrivateChatFriends
+  loadPrivateChatFriends,
+  loadPrivateChatFriendMessages,
 } = PrivateChatSlice.actions
 
 export default PrivateChatSlice.reducer

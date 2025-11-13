@@ -7,6 +7,7 @@ import {
   loadTotalFriendRequest,
   loadAllUsers,
 } from "./redux_folder/friendSlice";
+//import { loadPrivateChatFriendMessages } from "./redux_folder/chatSlice";
 
 const AppContext = React.createContext();
 
@@ -90,6 +91,7 @@ const AppProvider = ({ children }) => {
       dispatch(loadTotalFriendRequest(data));
     }
   };
+
 
   const createOrReturnPrivateChat = async (access, id) => {
     const url = `${BASE_URL}/message/create-or-return-private-chat-api/${id}/`;
@@ -190,7 +192,15 @@ const AppProvider = ({ children }) => {
     setOpenPrivateChatMessage(!isOpenPrivateChatMessage);
     if (user2_id != null && access != null) {
       const room_id = await createOrReturnPrivateChat(access, user2_id);
+
       setRoomId(room_id["chatroom_id"]);
+
+      /**const chatMessages = await getRoomChatMessages(
+        access,
+        room_id["chatroom_id"]
+      );**/
+      //console.log(chatMessages);
+      //loadPrivateChatFriendMessages(chatMessages);
     } else {
       setRoomId("");
     }

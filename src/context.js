@@ -22,7 +22,7 @@ const AppProvider = ({ children }) => {
   const [showVideo, setShowVideo] = useState(false);
   const [showAttachment, setShowAttachment] = useState(false);
   const [isOpenPrivateChatMessage, setOpenPrivateChatMessage] = useState(false);
-  const [getRoomId, setRoomId] = useState("");
+  const [getRoomId, setRoomId] = useState(null);
 
   const dispatch = useDispatch();
   let BASE_URL = "http://127.0.0.1:8000";
@@ -202,7 +202,7 @@ const AppProvider = ({ children }) => {
       //console.log(chatMessages);
       //loadPrivateChatFriendMessages(chatMessages);
     } else {
-      setRoomId("");
+      setRoomId(null);
     }
   };
 
